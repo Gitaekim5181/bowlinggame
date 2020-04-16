@@ -54,6 +54,8 @@
             this.btn_Roll = new System.Windows.Forms.Button();
             this.txt1 = new System.Windows.Forms.TextBox();
             this.Bnt_Start = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -73,6 +75,8 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.label2);
+            this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.btn_Roll);
             this.splitContainer1.Panel2.Controls.Add(this.txt1);
             this.splitContainer1.Panel2.Controls.Add(this.Bnt_Start);
@@ -263,7 +267,7 @@
             // 
             // btn_Roll
             // 
-            this.btn_Roll.Location = new System.Drawing.Point(32, 53);
+            this.btn_Roll.Location = new System.Drawing.Point(126, 137);
             this.btn_Roll.Name = "btn_Roll";
             this.btn_Roll.Size = new System.Drawing.Size(75, 23);
             this.btn_Roll.TabIndex = 2;
@@ -273,7 +277,7 @@
             // 
             // txt1
             // 
-            this.txt1.Location = new System.Drawing.Point(32, 10);
+            this.txt1.Location = new System.Drawing.Point(101, 63);
             this.txt1.Name = "txt1";
             this.txt1.Size = new System.Drawing.Size(100, 25);
             this.txt1.TabIndex = 1;
@@ -282,13 +286,31 @@
             // 
             // Bnt_Start
             // 
-            this.Bnt_Start.Location = new System.Drawing.Point(138, 12);
+            this.Bnt_Start.Location = new System.Drawing.Point(126, 94);
             this.Bnt_Start.Name = "Bnt_Start";
             this.Bnt_Start.Size = new System.Drawing.Size(75, 23);
             this.Bnt_Start.TabIndex = 0;
             this.Bnt_Start.Text = "시작";
             this.Bnt_Start.UseVisualStyleBackColor = true;
             this.Bnt_Start.Click += new System.EventHandler(this.Bnt_Start_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(26, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(162, 15);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "참가인원을 입력하세요";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(15, 66);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(80, 15);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "총인원 8명";
             // 
             // Form1
             // 
@@ -337,6 +359,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col9_9;
         private System.Windows.Forms.DataGridViewTextBoxColumn col10;
         private System.Windows.Forms.DataGridViewTextBoxColumn col10_10;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
 
