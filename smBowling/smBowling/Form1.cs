@@ -17,9 +17,20 @@ namespace smBowling
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
         {
-            MessageBox.Show("안녕하세요");
+            if(textBox1.Text == "")
+            {
+                MessageBox.Show("참가인원을 입력해주세요");
+            }
+            else
+            {
+                int player = int.Parse(textBox1.Text);
+                for (int i = 0; i < player; i++)
+                {
+                    dataGridView1.Rows.Add();
+                }
+            }
         }
     }
 }
