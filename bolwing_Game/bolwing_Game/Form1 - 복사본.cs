@@ -16,11 +16,5 @@ namespace bolwing_Game
         {
             InitializeComponent();
         }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Form2 frm = new Form2();
-            frm.ShowDialog();
-        }
     }
 }
