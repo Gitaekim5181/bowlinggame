@@ -14,6 +14,9 @@ namespace bolwing_Game
     {
         Boolean Handled_txt = false;
         int frm = 0;
+        int count = 1;
+
+
         public Form1()
         {
             InitializeComponent();
@@ -74,13 +77,33 @@ namespace bolwing_Game
 
         private void btn_Roll_Click(object sender, EventArgs e)
         {
-            int count = 1;
+            Random val = new Random();
+        
 
-            if(grid_1.Columns.Contains("col1"))
+            int a = val.Next(15);
+            int b = val.Next(15);
+           
+            int c = a + b;
+
+
+            if (grid_1.Columns.Contains("col1"))
             {
-              
-
+                grid_1.Rows[1].Cells[1].Value = a;
+                grid_1.Rows[1].Cells[2].Value = b;
+                grid_1.Rows[2].Cells[2].Value = c;
+                
             }
+            if (count == 2)
+            {
+
+                for (int i = 2; i <= count; i++)
+                {
+                    grid_1.Rows[i + 1].Cells[1].Value = a;
+                    grid_1.Rows[i + 1].Cells[2].Value = a;
+                    grid_1.Rows[i + 2].Cells[2].Value = a;
+                }
+            }
+            count++;
         }
     }
 }
