@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CD0D998F-D1F0-4A74-BC75-7A4D087F3C96}</ProjectGuid>
+    <ProjectGuid>{EAAA3B41-3CAE-4DFC-9E51-98E806793369}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>bolwing_Game</RootNamespace>
-    <AssemblyName>bolwing_Game</AssemblyName>
+    <RootNamespace>dtolBowling</RootNamespace>
+    <AssemblyName>dtolBowling</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

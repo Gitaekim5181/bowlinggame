@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace bolwing_Game.Properties
+namespace dtolBowling.Properties
 {
 
 
