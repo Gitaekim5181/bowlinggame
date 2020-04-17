@@ -30,28 +30,6 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.grid_1 = new System.Windows.Forms.DataGridView();
-            this.col0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_Roll = new System.Windows.Forms.Button();
@@ -89,29 +67,6 @@
             // 
             this.grid_1.AllowUserToAddRows = false;
             this.grid_1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grid_1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.col0,
-            this.col1,
-            this.Column1,
-            this.col2,
-            this.Column2,
-            this.col3,
-            this.Column3,
-            this.col4,
-            this.Column4,
-            this.col5,
-            this.Column5,
-            this.col6,
-            this.Column6,
-            this.col7,
-            this.Column7,
-            this.col8,
-            this.Column8,
-            this.col9,
-            this.Column9,
-            this.col10,
-            this.Column10,
-            this.col11});
             this.grid_1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grid_1.Location = new System.Drawing.Point(0, 0);
             this.grid_1.Name = "grid_1";
@@ -119,160 +74,6 @@
             this.grid_1.RowTemplate.Height = 27;
             this.grid_1.Size = new System.Drawing.Size(571, 450);
             this.grid_1.TabIndex = 0;
-            // 
-            // col0
-            // 
-            this.col0.HeaderText = "";
-            this.col0.MinimumWidth = 6;
-            this.col0.Name = "col0";
-            this.col0.Width = 125;
-            // 
-            // col1
-            // 
-            this.col1.HeaderText = "1번게임";
-            this.col1.MinimumWidth = 6;
-            this.col1.Name = "col1";
-            this.col1.Width = 125;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "1번게임";
-            this.Column1.MinimumWidth = 6;
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 125;
-            // 
-            // col2
-            // 
-            this.col2.HeaderText = "2번게임";
-            this.col2.MinimumWidth = 6;
-            this.col2.Name = "col2";
-            this.col2.Width = 125;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "2번게임";
-            this.Column2.MinimumWidth = 6;
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 125;
-            // 
-            // col3
-            // 
-            this.col3.HeaderText = "3번게임";
-            this.col3.MinimumWidth = 6;
-            this.col3.Name = "col3";
-            this.col3.Width = 125;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "3번게임";
-            this.Column3.MinimumWidth = 6;
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 125;
-            // 
-            // col4
-            // 
-            this.col4.HeaderText = "4번게임";
-            this.col4.MinimumWidth = 6;
-            this.col4.Name = "col4";
-            this.col4.Width = 125;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "4번게임";
-            this.Column4.MinimumWidth = 6;
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 125;
-            // 
-            // col5
-            // 
-            this.col5.HeaderText = "5번게임";
-            this.col5.MinimumWidth = 6;
-            this.col5.Name = "col5";
-            this.col5.Width = 125;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "5번게임";
-            this.Column5.MinimumWidth = 6;
-            this.Column5.Name = "Column5";
-            this.Column5.Width = 125;
-            // 
-            // col6
-            // 
-            this.col6.HeaderText = "6번게임";
-            this.col6.MinimumWidth = 6;
-            this.col6.Name = "col6";
-            this.col6.Width = 125;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "6번게임";
-            this.Column6.MinimumWidth = 6;
-            this.Column6.Name = "Column6";
-            this.Column6.Width = 125;
-            // 
-            // col7
-            // 
-            this.col7.HeaderText = "7번게임";
-            this.col7.MinimumWidth = 6;
-            this.col7.Name = "col7";
-            this.col7.Width = 125;
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "7번게임";
-            this.Column7.MinimumWidth = 6;
-            this.Column7.Name = "Column7";
-            this.Column7.Width = 125;
-            // 
-            // col8
-            // 
-            this.col8.HeaderText = "8번게임";
-            this.col8.MinimumWidth = 6;
-            this.col8.Name = "col8";
-            this.col8.Width = 125;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "8번게임";
-            this.Column8.MinimumWidth = 6;
-            this.Column8.Name = "Column8";
-            this.Column8.Width = 125;
-            // 
-            // col9
-            // 
-            this.col9.HeaderText = "9번게임";
-            this.col9.MinimumWidth = 6;
-            this.col9.Name = "col9";
-            this.col9.Width = 125;
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "9번게임";
-            this.Column9.MinimumWidth = 6;
-            this.Column9.Name = "Column9";
-            this.Column9.Width = 125;
-            // 
-            // col10
-            // 
-            this.col10.HeaderText = "10번게임";
-            this.col10.MinimumWidth = 6;
-            this.col10.Name = "col10";
-            this.col10.Width = 125;
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "20번게임";
-            this.Column10.MinimumWidth = 6;
-            this.Column10.Name = "Column10";
-            this.Column10.Width = 125;
-            // 
-            // col11
-            // 
-            this.col11.HeaderText = "보너스게임";
-            this.col11.MinimumWidth = 6;
-            this.col11.Name = "col11";
-            this.col11.Width = 125;
             // 
             // label2
             // 
@@ -329,6 +130,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
@@ -349,28 +151,6 @@
         private System.Windows.Forms.Button Bnt_Start;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col0;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col11;
     }
 }
 
