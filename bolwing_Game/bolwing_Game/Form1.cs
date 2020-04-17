@@ -22,6 +22,7 @@ namespace bolwing_Game
         int gcnt = 0;
         int fcnt = 0;
         int clear = 0;
+        int game_Count = 0;
 
         public Form1()
         {
@@ -128,22 +129,44 @@ namespace bolwing_Game
             
             if (fcnt < 20)
             {
-                if (game >= btncount)
+                if (game*2 >= btncount)
                 {
-                    
-                    for (int j = fcount; j <= gcount; j++)
+                    if (game_Count < 2)
                     {
-                        grid_1.Rows[gcnt].Cells[fcnt + 1].Value = a;
-                        
-                        grid_1.Rows[gcnt + 1].Cells[fcnt + 1].Value = a;
-                        
+                        for (int j = fcount; j <= gcount; j++)
+                        {
+                            grid_1.Rows[gcnt].Cells[fcnt + 1].Value = a;
 
-
+                            grid_1.Rows[gcnt + 1].Cells[fcnt + 1].Value = a;
+                        }
+                        
+                        fcount++;
+                        gcount++;
+                        fcnt++;
+                        game_Count++;
                     }
-                    gcnt += 2;
-                    fcount++;
-                    gcount++;
+                    
+                    else if(game_Count >2)
+                    {
+                        fcnt = 0;
+                        for (int j = fcount; j <= gcount; j++)
+                        {
+                            grid_1.Rows[gcnt].Cells[fcnt + 1].Value = a;
+
+                            grid_1.Rows[gcnt + 1].Cells[fcnt + 1].Value = a;
+
+
+
+                        }
+                        gcnt += 2;
+                        fcount++;
+                        gcount++;
+                        game_Count = 1;
+                    }
+                    
                 }
+                
+
             }
            else if (fcnt == 20 && a == 10)
             {
