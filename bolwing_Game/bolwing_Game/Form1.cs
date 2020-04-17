@@ -14,12 +14,19 @@ namespace bolwing_Game
     {
         Boolean Handled_txt = false;
         int frm = 0;
-        int count = 1;
-
+        int fcount = 1;
+        int gcount = 1;
+        int btncount = 0;
+        int game = 0;
+        int result = 0;
+        int gcnt = 0;
+        int fcnt = 0;
+        int clear = 0;
 
         public Form1()
         {
             InitializeComponent();
+            
         }
 
         private void txt1_KeyPress(object sender, KeyPressEventArgs e)
@@ -71,48 +78,98 @@ namespace bolwing_Game
             }
             else
             {
-                frm = int.Parse(txt1.Text);
+                
+                frm = int.Parse(txt1.Text); //프레임 수
+                game = int.Parse(txt1.Text);// 게임참여 수
+               
+                    for (int i = 1; i <= frm; i++)
+                    {
 
-                for (int i = 1; i <= frm; i++)
-                {
+                        grid_1.Rows.Add(i + "프레임 점수");
 
-                    grid_1.Rows.Add(i + "프레임");
-                    grid_1.Rows.Add("점수");
-                    grid_1.Rows.Add("합계");
-                }
+                        grid_1.Rows.Add("합계");
+                    }
+                clear++;
+
+            }
+            if(clear>=2)
+            {
+             
+              grid_1.Rows.Clear();
+              clear=0;
             }
             
+            
+
         }
 
         private void btn_Roll_Click(object sender, EventArgs e)
         {
             Random val = new Random();
-        
+            
 
-            int a = val.Next(15);
-            int b = val.Next(15);
-           
-            int c = a + b;
+            int a = val.Next(10);
+            int b = 0;
+            
+            
 
-
-            if (grid_1.Columns.Contains("col1"))
+            if (game <= btncount)
             {
-                grid_1.Rows[1].Cells[1].Value = a;
-                grid_1.Rows[1].Cells[2].Value = b;
-                grid_1.Rows[2].Cells[2].Value = c;
-                
+                fcnt++;
+                btncount = 0;
+                gcnt = 0;
+                fcount = 1;
+                gcount = 1;
+             
             }
-            if (count == 2)
-            {
 
-                for (int i = 2; i <= count; i++)
+            btncount++;
+
+            
+            if (fcnt < 10)
+            {
+                if (game >= btncount)
                 {
-                    grid_1.Rows[i + 1].Cells[1].Value = a;
-                    grid_1.Rows[i + 1].Cells[2].Value = a;
-                    grid_1.Rows[i + 2].Cells[2].Value = a;
+                    
+                    for (int j = fcount; j <= gcount; j++)
+                    {
+                        grid_1.Rows[gcnt].Cells[fcnt + 1].Value = a;
+                        
+                        grid_1.Rows[gcnt + 1].Cells[fcnt + 1].Value = a;
+                        
+
+
+                    }
+                    gcnt += 2;
+                    fcount++;
+                    gcount++;
                 }
             }
-            count++;
+           else if (fcnt == 10 && a == 10)
+            {
+                if (game >= btncount)
+                {
+
+                    for (int j = fcount; j <= gcount; j++)
+                    {
+                        grid_1.Rows[gcnt].Cells[fcnt + 1].Value = a;
+                        grid_1.Rows[gcnt + 1].Cells[fcnt + 1].Value = a;
+                        //result = a + b;
+
+
+                    }
+                    gcnt += 2;
+                    fcount++;
+                    gcount++;
+                }
+            }
+            else 
+            {
+                MessageBox.Show("게임이 완료되었습니다.!");
+            }
+ 
         }
+
+       
     }
 }
