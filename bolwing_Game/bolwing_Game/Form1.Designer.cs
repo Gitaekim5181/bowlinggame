@@ -54,6 +54,7 @@
             this.btn_Roll = new System.Windows.Forms.Button();
             this.txt1 = new System.Windows.Forms.TextBox();
             this.Bnt_Start = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -73,6 +74,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.button2);
             this.splitContainer1.Panel2.Controls.Add(this.btn_Roll);
             this.splitContainer1.Panel2.Controls.Add(this.txt1);
             this.splitContainer1.Panel2.Controls.Add(this.Bnt_Start);
@@ -290,6 +292,15 @@
             this.Bnt_Start.UseVisualStyleBackColor = true;
             this.Bnt_Start.Click += new System.EventHandler(this.Bnt_Start_Click);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(56, 152);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -337,6 +348,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col9_9;
         private System.Windows.Forms.DataGridViewTextBoxColumn col10;
         private System.Windows.Forms.DataGridViewTextBoxColumn col10_10;
+        private System.Windows.Forms.Button button2;
     }
 }
 
