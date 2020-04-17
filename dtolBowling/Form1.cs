@@ -7,16 +7,116 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace dtolBowling
 {
+    public class DataGridViewDisableButtonColumn : DataGridViewButtonColumn
+    {
+        public DataGridViewDisableButtonColumn()
+        {
+            this.CellTemplate = new DataGridViewDisableButtonCell();
+        }
+    }
+
+    // Disable Button Cell
+    public class DataGridViewDisableButtonCell : DataGridViewButtonCell
+    {
+        private bool enabledValue;
+        public bool Enabled
+        {
+            get { return enabledValue; }
+            set { enabledValue = value; }
+        }
+
+        // Override the Clone method so that the Enabled property is copied.
+        public override object Clone()
+        {
+            DataGridViewDisableButtonCell cell =
+                (DataGridViewDisableButtonCell)base.Clone();
+            cell.Enabled = this.Enabled;
+            return cell;
+        }
+
+        // By default, enable the button cell.
+        public DataGridViewDisableButtonCell()
+        {
+            this.enabledValue = true;
+        }
+
+        protected override void Paint(Graphics graphics,
+            Rectangle clipBounds, Rectangle cellBounds, int rowIndex,
+            DataGridViewElementStates elementState, object value,
+            object formattedValue, string errorText,
+            DataGridViewCellStyle cellStyle,
+            DataGridViewAdvancedBorderStyle advancedBorderStyle,
+            DataGridViewPaintParts paintParts)
+        {
+            // The button cell is disabled, so paint the border,  
+            // background, and disabled button for the cell.
+            if (!this.enabledValue)
+            {
+                // Draw the cell background, if specified.
+                if ((paintParts & DataGridViewPaintParts.Background) ==
+                    DataGridViewPaintParts.Background)
+                {
+                    SolidBrush cellBackground =
+                        new SolidBrush(cellStyle.BackColor);
+                    graphics.FillRectangle(cellBackground, cellBounds);
+                    cellBackground.Dispose();
+                }
+
+                // Draw the cell borders, if specified.
+                if ((paintParts & DataGridViewPaintParts.Border) ==
+                    DataGridViewPaintParts.Border)
+                {
+                    PaintBorder(graphics, clipBounds, cellBounds, cellStyle,
+                        advancedBorderStyle);
+                }
+
+                // Calculate the area in which to draw the button.
+                Rectangle buttonArea = cellBounds;
+                Rectangle buttonAdjustment =
+                    this.BorderWidths(advancedBorderStyle);
+                buttonArea.X += buttonAdjustment.X;
+                buttonArea.Y += buttonAdjustment.Y;
+                buttonArea.Height -= buttonAdjustment.Height;
+                buttonArea.Width -= buttonAdjustment.Width;
+
+                // Draw the disabled button.                
+                ButtonRenderer.DrawButton(graphics, buttonArea,
+                    PushButtonState.Disabled);
+
+                // Draw the disabled button text. 
+                if (this.FormattedValue is String)
+                {
+                    TextRenderer.DrawText(graphics,
+                        (string)this.FormattedValue,
+                        this.DataGridView.Font,
+                        buttonArea, SystemColors.GrayText);
+                }
+            }
+            else
+            {
+                // The button cell is enabled, so let the base class 
+                // handle the painting.
+                base.Paint(graphics, clipBounds, cellBounds, rowIndex,
+                    elementState, value, formattedValue, errorText,
+                    cellStyle, advancedBorderStyle, paintParts);
+            }
+        }
+    }
+
     public partial class Form1 : Form
     {
-
-        int clickCnt = 1;
-        bool cFlag = false;
+        int frameCnt = 1;
+        bool isFirst = true;
+        bool strike = false;
+        bool spare = false;
         string first = string.Empty;
         string second = string.Empty;
+        int jumsu = 0;
+        
 
         public Form1()
         {
@@ -27,7 +127,7 @@ namespace dtolBowling
         {
         }
 
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e) //키 입력시 숫자만 입력가능
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
             {
@@ -35,7 +135,7 @@ namespace dtolBowling
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void textBox1_TextChanged(object sender, EventArgs e) //입력한 숫자가 1~8 인지 확인
         {
             if (txtMember.Text.Length > 0)
             {
@@ -49,9 +149,10 @@ namespace dtolBowling
             }
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
+        private void btnStart_Click(object sender, EventArgs e) //볼링 게임 시작
         {
-            if (txtMember.TextLength < 1)
+            frameCnt = 1;
+            if (txtMember.TextLength < 1) //사용자 수 입력없으면 입력안내
             {
                 MessageBox.Show("사용자수 입력");
                 return;
@@ -67,7 +168,7 @@ namespace dtolBowling
             dataGridView1.DataSource = dt;
             dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            
+
 
             int member = int.Parse(txtMember.Text);
             int rail = 1;
@@ -79,8 +180,12 @@ namespace dtolBowling
                     row.ItemArray = new object[] { $"{rail}번 레일" };
                     dt.Rows.Add(row);
 
-                    dataGridView1.Rows[i - 1].Cells[11] = new DataGridViewButtonCell();
+                    DataGridViewDisableButtonCell btnCell = new DataGridViewDisableButtonCell();
+                    dataGridView1.Rows[i - 1].Cells[11] = btnCell;
                     dataGridView1.Rows[i - 1].Cells[11].Value = "Roll";
+
+                    
+                    //btnCell.Enabled = false;
                     rail++;
                 }
                 else
@@ -90,7 +195,6 @@ namespace dtolBowling
                     dt.Rows.Add(row);
                 }
             }
-
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -101,30 +205,92 @@ namespace dtolBowling
             }
             else
             {
-                Random rnd = new Random();
-                string roll = Convert.ToString(rnd.Next(0, 11));
-                
-                if (clickCnt <= 2)
+                if (frameCnt < 11)
                 {
-                    if(!cFlag)
+                    if (strike)
                     {
-                        cFlag = true;
-                        dataGridView1.Rows[e.RowIndex].Cells[1].Value = roll;
-                        first = roll;
+                        frameCnt++;
+                        isFirst = true;
+                    }
+                    if (isFirst)
+                    {
+                        rollData(null, e, frameCnt, isFirst);
+                        isFirst = false;
                     }
                     else
                     {
-                        second = roll;
-                        int result = Convert.ToInt32(first) + Convert.ToInt32(second);
-                        if (result >= 10)
-                        {
-                            second = "/";
-                        }
-                        dataGridView1.Rows[e.RowIndex].Cells[1].Value = first + " | " + second;
-                        dataGridView1.Rows[e.RowIndex + 1].Cells[1].Value = result.ToString();
+                        rollData(null, e, frameCnt, isFirst);
+                        isFirst = true;
+                        frameCnt++;
                     }
                 }
-                clickCnt++;
+                else if (frameCnt == 10)
+                {
+                    if (strike || spare)
+                    {
+                        isFirst = true;
+                        rollData(null, e, frameCnt, isFirst);
+                        isFirst = false;
+                    }
+                    else
+                    {
+                        rollData(null, e, frameCnt, isFirst);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show($"{e.RowIndex + 1}번 레일 게임 종료");
+                    frameCnt = 1;
+                }
+            }
+        }
+
+        private void rollData(object sender, DataGridViewCellEventArgs e, int frame, bool isFirst)
+        {
+            Random rnd = new Random();
+            string roll = Convert.ToString(rnd.Next(0, 11));
+            
+            if (isFirst)
+            {
+                if (roll.Equals("10"))
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells[frame].Value = "X";
+                    strike = true;
+                }
+                else
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells[frame].Value = roll;
+                    first = roll;
+                }
+
+                if (spare)
+                {
+                    jumsu = jumsu + 10 + Convert.ToInt32(first);
+                    dataGridView1.Rows[e.RowIndex + 1].Cells[frame - 1].Value = jumsu;
+                    spare = false;
+                }
+            }
+            else
+            {
+                second = Convert.ToString(rnd.Next(0, 10));
+                int result = Convert.ToInt32(first) + Convert.ToInt32(second);
+                if (result >= 10)
+                {
+                    second = "/";
+                    spare = true;
+                    result = 10;
+                }
+                else
+                {
+                    dataGridView1.Rows[e.RowIndex + 1].Cells[frame].Value = jumsu + result;
+                    jumsu = Convert.ToInt32(dataGridView1.Rows[e.RowIndex + 1].Cells[frame].Value);
+                }
+                if (strike)
+                {
+                    dataGridView1.Rows[e.RowIndex + 1].Cells[frame].Value = jumsu + 10 + result;
+                    strike = false;
+                }
+                dataGridView1.Rows[e.RowIndex].Cells[frame].Value = first + " | " + second;
             }
         }
     }
