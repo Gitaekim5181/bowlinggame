@@ -111,12 +111,12 @@ namespace dtolBowling
     {
         int frameCnt = 1;
         bool isFirst = true;
-        bool strike = false;
+        int strike = 0;
         bool spare = false;
         string first = string.Empty;
         string second = string.Empty;
         int jumsu = 0;
-        
+
 
         public Form1()
         {
@@ -184,7 +184,7 @@ namespace dtolBowling
                     dataGridView1.Rows[i - 1].Cells[11] = btnCell;
                     dataGridView1.Rows[i - 1].Cells[11].Value = "Roll";
 
-                    
+
                     //btnCell.Enabled = false;
                     rail++;
                 }
@@ -205,28 +205,23 @@ namespace dtolBowling
             }
             else
             {
-                if (frameCnt < 11)
+                if (frameCnt < 10)
                 {
-                    if (strike)
-                    {
-                        frameCnt++;
-                        isFirst = true;
-                    }
                     if (isFirst)
                     {
-                        rollData(null, e, frameCnt, isFirst);
                         isFirst = false;
+                        rollData(null, e, frameCnt, isFirst);
                     }
                     else
                     {
-                        rollData(null, e, frameCnt, isFirst);
                         isFirst = true;
+                        rollData(null, e, frameCnt, isFirst);
                         frameCnt++;
                     }
                 }
                 else if (frameCnt == 10)
                 {
-                    if (strike || spare)
+                    if (strike > 0 || spare)
                     {
                         isFirst = true;
                         rollData(null, e, frameCnt, isFirst);
@@ -241,28 +236,30 @@ namespace dtolBowling
                 {
                     MessageBox.Show($"{e.RowIndex + 1}번 레일 게임 종료");
                     frameCnt = 1;
+                    jumsu = 0;
                 }
             }
         }
 
-        private void rollData(object sender, DataGridViewCellEventArgs e, int frame, bool isFirst)
+        private void rollData(object sender, DataGridViewCellEventArgs e, int frame, bool firstRoll)
         {
             Random rnd = new Random();
             string roll = Convert.ToString(rnd.Next(0, 11));
-            
-            if (isFirst)
+            if (!firstRoll)
             {
                 if (roll.Equals("10"))
                 {
                     dataGridView1.Rows[e.RowIndex].Cells[frame].Value = "X";
-                    strike = true;
+                    strike++;
+                    frameCnt++;
+                    isFirst = true;
+                    first = "10";
                 }
                 else
                 {
                     dataGridView1.Rows[e.RowIndex].Cells[frame].Value = roll;
                     first = roll;
                 }
-
                 if (spare)
                 {
                     jumsu = jumsu + 10 + Convert.ToInt32(first);
@@ -272,8 +269,19 @@ namespace dtolBowling
             }
             else
             {
+                if (first == "0")
+                {
+                    second = Convert.ToString(rnd.Next(0, 11));
+                    if (second.Equals("10"))
+                    {
+                        dataGridView1.Rows[e.RowIndex].Cells[frame].Value = first + "  |  " + "X";
+                        strike++;
+                        second = "10";
+                    }
+                }
                 second = Convert.ToString(rnd.Next(0, 10));
                 int result = Convert.ToInt32(first) + Convert.ToInt32(second);
+               
                 if (result >= 10)
                 {
                     second = "/";
@@ -285,13 +293,19 @@ namespace dtolBowling
                     dataGridView1.Rows[e.RowIndex + 1].Cells[frame].Value = jumsu + result;
                     jumsu = Convert.ToInt32(dataGridView1.Rows[e.RowIndex + 1].Cells[frame].Value);
                 }
-                if (strike)
+                dataGridView1.Rows[e.RowIndex].Cells[frame].Value = first + "  |  " + second;
+                if (strike > 0)
                 {
-                    dataGridView1.Rows[e.RowIndex + 1].Cells[frame].Value = jumsu + 10 + result;
-                    strike = false;
+                    dataGridView1.Rows[e.RowIndex + 1].Cells[frame - 1].Value = jumsu + 10 + result;
+                    jumsu = jumsu + 10 + result;
+                    strike = 0;
                 }
-                dataGridView1.Rows[e.RowIndex].Cells[frame].Value = first + " | " + second;
             }
+        }
+
+        private void bonusGame(object sender, DataGridViewCellEventArgs e, int frame, bool firstRoll)
+        {
+
         }
     }
 }
