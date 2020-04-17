@@ -63,14 +63,23 @@ namespace bolwing_Game
 
         private void Bnt_Start_Click(object sender, EventArgs e)
         {
-            frm = int.Parse(txt1.Text);
-
-            for(int i=1;i<=frm;i++)
+            if (txt1.Text == "" || txt1.Text == null)
             {
-               
-                grid_1.Rows.Add(i+"프레임");
-                grid_1.Rows.Add("점수");
-                grid_1.Rows.Add("합계");
+                MessageBox.Show("참가인원을 입력해주세요 인원은 최대 8명까지 입니다.");
+
+                txt1.Focus();
+            }
+            else
+            {
+                frm = int.Parse(txt1.Text);
+
+                for (int i = 1; i <= frm; i++)
+                {
+
+                    grid_1.Rows.Add(i + "프레임");
+                    grid_1.Rows.Add("점수");
+                    grid_1.Rows.Add("합계");
+                }
             }
             
         }
