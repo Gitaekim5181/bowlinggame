@@ -18,11 +18,19 @@ namespace bolwing_Game
         int gcount = 1;
         int btncount = 0;
         int game = 0;
-        int result = 0;
+        int[] result = new int[8];
         int gcnt = 0;
         int fcnt = 0;
         int clear = 0;
         int game_Count = 0;
+        int game_Frm = 0;
+        int game_Rows = 1;
+        int c = 0;
+
+        int a_s = 1;
+        int a_b = 1;
+        int a_c = 1;
+        int temp = 0;
 
         public Form1()
         {
@@ -66,6 +74,7 @@ namespace bolwing_Game
                 
             }
             grid_1.Rows.Clear();
+            grid_1.Refresh();
             Handled_txt = true;
         }
 
@@ -85,10 +94,7 @@ namespace bolwing_Game
                
                     for (int i = 1; i <= frm; i++)
                     {
-
-                        grid_1.Rows.Add(i + "프레임 점수");
-
-                        grid_1.Rows.Add("합계");
+                        grid_1.Rows.Add(i + "번 핀수");
                     }
                 clear++;
 
@@ -96,8 +102,9 @@ namespace bolwing_Game
             if(clear>=2)
             {
              
-              grid_1.Rows.Clear();
-              clear=0;
+             grid_1.Rows.Clear();
+             grid_1.Refresh();
+             clear =0;
             }
             
             
@@ -107,92 +114,152 @@ namespace bolwing_Game
         private void btn_Roll_Click(object sender, EventArgs e)
         {
             Random val = new Random();
-            
+            Random val_B = new Random();
 
             int a = val.Next(10);
-            int b = 0;
-            
-            
 
-            if (game <= btncount)
+            if (grid_1.Rows.Count > 0)
             {
-                fcnt++;
-                btncount = 0;
-                gcnt = 0;
-                fcount = 1;
-                gcount = 1;
-             
-            }
-
-            btncount++;
-
-            
-            if (fcnt < 20)
-            {
-                if (game*2 >= btncount)
+                if (game == btncount)
                 {
-                    if (game_Count < 2)
+                    btncount = 0;
+                    fcount = 1;
+                    gcount = 1;
+                    //fcnt = 0;
+  
+                }
+                if(grid_1.Rows.Count-1 < gcnt)
+                {
+                    gcnt = 0;
+                    game_Frm++;
+                    game_Rows++;
+
+                }
+                if(game_Frm <1)
+                {
+                    fcnt = 0;
+            
+                }
+                if (game_Frm % 2 == 0)
+                {
+                    fcnt = game_Frm + game_Rows;
+                   
+                }
+                    if (game_Frm %2==1)
+                {
+                    fcnt = game_Frm + game_Rows;
+                    
+                }
+               
+                btncount++;
+
+
+
+                if (fcnt < 20)
+                {
+                    if (game >= btncount)
                     {
+                        if (game_Count < 1)
+                        {
+                            
+                            for (int j = fcount; j <= gcount; j++)
+                            {
+                                
+                                grid_1.Rows[gcnt].Cells[fcnt].Value = a;
+                               
+                                c = 10 - a;
+                            }
+                            if (a < 10)
+                            {
+                                game_Count++;
+                                result[gcnt] += a;
+                            }
+                            else
+                            {
+
+                                result[gcnt] += a;
+
+                                game_Count = 2;
+                                gcnt++;
+                                fcount++;
+                                gcount++;
+                                btncount++;
+                                game_Count = 0;
+                                
+                               
+                            }
+
+                        }
+                        else if (game_Count < 2)
+                        {
+                            
+                            int b = val_B.Next(c);
+
+                            for (int j = fcount; j <= gcount; j++)
+                            {
+                                grid_1.Rows[gcnt].Cells[fcnt+1].Value = b;
+                                result[gcnt] += b;
+                            }
+                            gcnt++;
+                            fcount++;
+                            gcount++;
+                            game_Count = 0;
+       
+
+                        }
+
+                    }
+
+
+                }
+                else if (fcnt == 20 && a == 10)
+                {
+                    if (game >= btncount)
+                    {
+
                         for (int j = fcount; j <= gcount; j++)
                         {
-                            grid_1.Rows[gcnt].Cells[fcnt + 1].Value = a;
+                            grid_1.Rows[gcnt].Cells[fcnt].Value = a;
+                            result[gcnt] += a;
 
-                            grid_1.Rows[gcnt + 1].Cells[fcnt + 1].Value = a;
+
                         }
+                        gcnt++;
+                        fcount++;
+                        gcount++;
+                        game_Count = 0;
                         
-                        fcount++;
-                        gcount++;
-                        fcnt++;
-                        game_Count++;
                     }
-                    
-                    else if(game_Count >2)
-                    {
-                        fcnt = 0;
-                        for (int j = fcount; j <= gcount; j++)
-                        {
-                            grid_1.Rows[gcnt].Cells[fcnt + 1].Value = a;
-
-                            grid_1.Rows[gcnt + 1].Cells[fcnt + 1].Value = a;
-
-
-
-                        }
-                        gcnt += 2;
-                        fcount++;
-                        gcount++;
-                        game_Count = 1;
-                    }
-                    
                 }
-                
-
-            }
-           else if (fcnt == 20 && a == 10)
-            {
-                if (game >= btncount)
+                else
                 {
-
-                    for (int j = fcount; j <= gcount; j++)
+                    if (grid_1.Columns.Count > fcnt+1) 
                     {
-                        grid_1.Rows[gcnt].Cells[fcnt + 1].Value = a;
-                        grid_1.Rows[gcnt + 1].Cells[fcnt + 1].Value = a;
-                        //result = a + b;
+                        grid_1.Rows[gcnt].Cells[fcnt + 1].Value = result[gcnt];
+                        gcnt++;
 
+                        MessageBox.Show(gcnt + "번 게임이 완료되었습니다.!");
 
                     }
-                    gcnt += 2;
-                    fcount++;
-                    gcount++;
-                }
-            }
-            else 
-            {
-                MessageBox.Show("게임이 완료되었습니다.!");
-            }
- 
-        }
 
+                    else
+                    {
+                       
+                        for (int i = 0; i < grid_1.Columns.Count; i++)
+                        {
+                            for (int j = 0; j < grid_1.Rows.Count; j++)
+                            {
+                                grid_1.Rows[j].Cells[i].DataGridView.Rows.Clear();
+                                
+                            }
+                        }
+                        txt1.Text = "";
+
+                    }
+                }
+
+            }
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
             this.grid_1.Columns.Add(" ", "");
@@ -216,7 +283,8 @@ namespace bolwing_Game
             this.grid_1.Columns.Add("9번프레임", "두번째");
             this.grid_1.Columns.Add("10번프레임", "첫번째");
             this.grid_1.Columns.Add("10번프레임", "두번째");
-            this.grid_1.Columns.Add("보너스게임", "합계");
+            this.grid_1.Columns.Add("10번프레임", "보너스");
+            this.grid_1.Columns.Add(" ", "합계");
 
             for (int i = 0; i < this.grid_1.ColumnCount; i++)
 
