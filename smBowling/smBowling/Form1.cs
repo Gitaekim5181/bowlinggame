@@ -14,6 +14,7 @@ namespace smBowling
     {
         int rollcnt = 1;
         int frameCnt = 0;
+        int totalScore = 0;
         public Form1()
         {
             InitializeComponent();
@@ -21,6 +22,9 @@ namespace smBowling
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            dataGridView1.Refresh();
+            rollcnt = 1;
+            frameCnt = 0;
             if(textBox1.Text == "")
             {
                 MessageBox.Show("참가인원을 입력해주세요");
@@ -44,13 +48,13 @@ namespace smBowling
                 table.Columns.Add("9", typeof(string));
                 table.Columns.Add("10", typeof(string));
                 dataGridView1.DataSource = table;
-                for(int i = 0; i < dataGridView1.Columns.Count; i++)
+                dataGridView1.ReadOnly = true;
+                for (int i = 0; i < dataGridView1.Columns.Count; i++)
                 {
                     DataGridViewColumn column = dataGridView1.Columns[i];
-                    column.Width = 20;
+                    column.Width = 40;
                 }
-                
-        
+                table.Rows.Add();
                 table.Rows.Add();
                 table.Rows.Add();
             }
@@ -61,32 +65,89 @@ namespace smBowling
         {
             Random r = new Random();
             int firstscore = r.Next(0, 11);
-            int secondscore = r.Next(0, 11);
-
+            int fscore = 0;
+            int secondscore = r.Next(0, 11 - fscore);
             if (rollcnt < 11)
-            {
-                if(frameCnt == 0)
-                {
-                
-                    dataGridView1.Rows[frameCnt].Cells[rollcnt].Value = firstscore;
-                    dataGridView1.Rows[2].Cells[rollcnt].Value = firstscore;
-                    frameCnt++;
-                } 
-                else
-                {
-                    dataGridView1.Rows[frameCnt].Cells[rollcnt].Value = secondscore;
+            {                  
+                if (frameCnt == 0)
+                {                 
                     
-                    String sscroe = dataGridView1.Rows[frameCnt-1].Cells[rollcnt].Value.ToString();
-                    int fscore = Int32.Parse(sscroe);
-                    dataGridView1.Rows[2].Cells[rollcnt].Value = fscore +  secondscore;
+                    
+                        dataGridView1.Rows[frameCnt].Cells[rollcnt].Value = firstscore;
+                  
+                    
+                    //dataGridView1.Rows[2].Cells[rollcnt].Value = firstscore;
+                    frameCnt++;
+                    if (rollcnt == 10)
+                    {
+                        if (firstscore == 10)
+                        {
+                           secondscore = r.Next(0, 11);
+                           dataGridView1.Rows[frameCnt].Cells[rollcnt].Value = secondscore;
+                        }
+                    }
+                } 
+                else 
+                {
+                    String sscore= dataGridView1.Rows[frameCnt - 1].Cells[rollcnt].Value.ToString();
+                    if(sscore == "10")
+                    {
+                        fscore = 10;
+                        dataGridView1.Rows[frameCnt].Cells[rollcnt].Value = 0;
+                        dataGridView1.Rows[3].Cells[rollcnt].Value = fscore;
+                    }
+                    else
+                    {
+                        fscore = Int32.Parse(sscore);
+                        secondscore = r.Next(0, 11 - fscore);
+                       
+                       
+                            dataGridView1.Rows[frameCnt].Cells[rollcnt].Value = secondscore;
+                            dataGridView1.Rows[3].Cells[rollcnt].Value = fscore + secondscore;
+                       
+                    }
+                   if(rollcnt == 10)
+                    {
+                        if(fscore + secondscore == 10)
+                        {
+                            int bonusScore = r.Next(0, 11);
+                            dataGridView1.Rows[2].Cells[rollcnt].Value = bonusScore;
+                            dataGridView1.Rows[3].Cells[rollcnt].Value = fscore + secondscore + bonusScore;
+                        }
+                        else
+                        {
+                            dataGridView1.Rows[3].Cells[rollcnt].Value = fscore + secondscore;
+                        }
+                    }
+                    if(rollcnt > 1)
+                    {
+                        string lastScore = dataGridView1.Rows[3].Cells[rollcnt - 1].Value.ToString();
+                        totalScore = Int32.Parse(lastScore);
+                        dataGridView1.Rows[3].Cells[rollcnt].Value = fscore + secondscore + totalScore;
+                   
+                        int strikeScore = Int32.Parse(dataGridView1.Rows[0].Cells[rollcnt - 1].Value.ToString());
+                        int spareScore = Int32.Parse(dataGridView1.Rows[1].Cells[rollcnt - 1].Value.ToString());
+                        int lasyFrameScore = Int32.Parse(dataGridView1.Rows[3].Cells[rollcnt - 1].Value.ToString());
+                    
+                        if (strikeScore == 10)
+                        {
+                            dataGridView1.Rows[3].Cells[rollcnt - 1].Value = fscore + secondscore + lasyFrameScore;
+                            dataGridView1.Rows[3].Cells[rollcnt].Value = fscore + secondscore + totalScore;
+                        }
+                        else if(strikeScore != 10 && strikeScore + spareScore == 10)
+                        {
+                            dataGridView1.Rows[3].Cells[rollcnt - 1].Value = fscore + lasyFrameScore;
+                            dataGridView1.Rows[3].Cells[rollcnt].Value = fscore + lasyFrameScore + fscore + secondscore;
+                            //dataGridView1.Rows[3].Cells[rollcnt].Value = fscore + secondscore + totalScore;
+                        }
+                    }
                     frameCnt--;
                     rollcnt++;
+                    
                 }
 
             }
             
-           
-
 
         }
 

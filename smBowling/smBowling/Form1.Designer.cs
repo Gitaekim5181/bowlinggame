@@ -30,10 +30,10 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -58,27 +58,38 @@
             this.splitContainer1.Panel2.Controls.Add(this.button2);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Panel2.Controls.Add(this.textBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(925, 451);
-            this.splitContainer1.SplitterDistance = 727;
+            this.splitContainer1.Size = new System.Drawing.Size(1057, 564);
+            this.splitContainer1.SplitterDistance = 830;
+            this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(10, 7);
+            this.dataGridView1.Location = new System.Drawing.Point(11, 9);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 27;
-            this.dataGridView1.Size = new System.Drawing.Size(706, 434);
+            this.dataGridView1.Size = new System.Drawing.Size(807, 542);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(14, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(77, 15);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "참여인원 :";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(11, 58);
+            this.button2.Location = new System.Drawing.Point(13, 72);
             this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(89, 41);
+            this.button2.Size = new System.Drawing.Size(102, 51);
             this.button2.TabIndex = 2;
             this.button2.Text = "ROLL";
             this.button2.UseVisualStyleBackColor = true;
@@ -86,10 +97,10 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(125, 7);
+            this.button1.Location = new System.Drawing.Point(143, 9);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(66, 33);
+            this.button1.Size = new System.Drawing.Size(75, 41);
             this.button1.TabIndex = 1;
             this.button1.Text = "시작";
             this.button1.UseVisualStyleBackColor = true;
@@ -97,26 +108,17 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(79, 10);
+            this.textBox1.Location = new System.Drawing.Point(90, 12);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(31, 21);
+            this.textBox1.Size = new System.Drawing.Size(35, 25);
             this.textBox1.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 12);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "참여인원 :";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(925, 451);
+            this.ClientSize = new System.Drawing.Size(1057, 564);
             this.Controls.Add(this.splitContainer1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
