@@ -15,8 +15,7 @@ namespace smBowling
         int rollcnt = 1;
         int frameCnt = 0;
         int totalScore = 0;
-        int firstPin = 0;
-        int secondPin = 0;
+       
         public Form1()
         {
             InitializeComponent();
@@ -51,6 +50,7 @@ namespace smBowling
                 table.Columns.Add("10", typeof(string));
                 dataGridView1.DataSource = table;
                 dataGridView1.ReadOnly = true;
+                
                 for (int i = 1; i < dataGridView1.Columns.Count; i++)
                 {
                     DataGridViewColumn column = dataGridView1.Columns[i];
@@ -65,7 +65,7 @@ namespace smBowling
                 dataGridView1.Rows[3].Cells[0].Value = "점수합계";
                 DataGridViewColumn column1 = dataGridView1.Columns[0];
                 column1.Width = 70;
-
+                button1.Visible = true;
             }
         }
 
@@ -81,15 +81,13 @@ namespace smBowling
                 if (frameCnt == 0)
                 {
                     dataGridView1.Rows[frameCnt].Cells[rollcnt].Value = firstscore;                    
-                    frameCnt++;
-                   
+                    frameCnt++;                   
                 }
                 else
                 {
                     String sscore = dataGridView1.Rows[frameCnt - 1].Cells[rollcnt].Value.ToString();
                     fscore = Int32.Parse(sscore);
                     secondscore = r.Next(0, 11 - fscore);
-
 
                     dataGridView1.Rows[frameCnt].Cells[rollcnt].Value = secondscore;
                     dataGridView1.Rows[3].Cells[rollcnt].Value = fscore + secondscore;
@@ -104,7 +102,7 @@ namespace smBowling
                         int lastFrameScore = Int32.Parse(dataGridView1.Rows[3].Cells[rollcnt - 1].Value.ToString());
 
                         if (strikeScore == 10)
-                        {
+                        {   
                             dataGridView1.Rows[3].Cells[rollcnt - 1].Value = fscore + secondscore + lastFrameScore;
                             lastScore = dataGridView1.Rows[3].Cells[rollcnt - 1].Value.ToString();
                             totalScore = Int32.Parse(lastScore);
@@ -144,8 +142,6 @@ namespace smBowling
 
                 }
             }
-
-
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
