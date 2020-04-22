@@ -20,7 +20,8 @@ namespace bolwing_Game
         int btncount = 0;
         int game = 0;
         int[] result = new int[8];
-        int[] strike = new int[12];
+        int[] strike = new int[8];
+        int[] spare = new int[9];
         int gcnt = 0;
         int fcnt = 0;
         int clear = 0;
@@ -117,11 +118,12 @@ namespace bolwing_Game
 
         private void btn_Roll_Click(object sender, EventArgs e)
         {
-            //Random val = new Random();
-            //Random val_B = new Random();
+            Random val = new Random();
+            Random val_B = new Random();
 
-            //int a = val.Next(10);
-            int a =10;
+            int a = val.Next(10);
+            //int a =10;
+            //int a = 7;
             strike_bonus = 10 - a;
             if (grid_1.Rows.Count > 0)
             {
@@ -131,8 +133,6 @@ namespace bolwing_Game
                     btncount = 0;
                     fcount = 1;
                     gcount = 1;
-                    //fcnt = 0;
-  
                 }
                 if(grid_1.Rows.Count-1 < gcnt)
                 {
@@ -174,106 +174,156 @@ namespace bolwing_Game
 
 
 
-                if (game_Frm<10)
+                if (game_Frm < 10)
                 {
                     if (game >= btncount)
                     {
                         if (game_Count < 1)
                         {
-                            
+
                             for (int j = fcount; j <= gcount; j++)
                             {
                                 
                                 grid_1.Rows[gcnt].Cells[fcnt].Value = a;
-                                c = 10 - a;
-                                bonus = 10 - a;
-                                
-                                
+                                //c = 10 - a;
+
                             }
                             if (a < 10)
                             {
                                 game_Count++;
+                                
+
+                                if(strike[gcnt] ==0 && spare[gcnt] >=  1)
+                                {
+                                    a_s = 2;
+
+                                    if(spare[gcnt]!=0)
+                                    {
+                                        spare[gcnt] -= 1;
+                                    }
+                                    
+                                }
+                                
+                                else if (spare[gcnt]>= 1 && strike[gcnt] == 0)
+                                {
+                                    if (strike[gcnt] != 0)
+                                    {
+                                        strike[gcnt] -= 1;
+
+                                    }
+                                    if (a_s > 1)
+                                    {
+                                        a_s--;
+                                    }
+                                }
+
+                                else if (spare[gcnt] == 0 && strike[gcnt] == 0)
+                                {
+                                    a_s = 1;
+                                }
+
                                 result[gcnt] += a * a_s;
-                                a_s=1;
+
+
                             }
                             else
                             {
 
-                                a_s = 1;
-                                a_b = 0;
-                                a_c = 0;
-
-                                    if(strike_count == gcnt)
+                                if (game_Frm >= 1)
+                                {
+                                    if (grid_1.Rows[gcnt].Cells[fcnt - 1].Value == null)
                                     {
-                                        a_s = 1;
-                                        a_b = 2;
-                                        a_c = temp;
+                                        strike[gcnt] += 1;
+
+                                        if (strike[gcnt] > 1)
+                                        {
+                                            if (a_s < 3)
+                                            {
+                                                a_s = 3;
+                                            }
+
+                                            result[gcnt] += a * a_s;
+                                        }
+                                        else if (strike[gcnt] == 1)
+                                        {
+                                            if (a_s < 2)
+                                            {
+                                                a_s++;
+                                            }
+                                            result[gcnt] += a * a_s;
+                                        }
+
+                                        else
+                                        {
+                                            result[gcnt] += a * a_s;
+                                        }
+
+
                                     }
+                                    else if (grid_1.Rows[gcnt].Cells[fcnt - 1].Value != null)
+                                    {
+                                        if (strike[gcnt] != 0)
+                                        {
+                                            strike[gcnt] -= 1;
 
-                                
-                                result[gcnt] += a * a_s ;
+                                        }
+                                        if (a_s > 1)
+                                        {
+                                            a_s--;
+                                        }
 
-                                strike_count = gcnt;
+                                        //result[gcnt] += a * a_s;
+                                    }
+                                }
+                                else
+                                {
+                                    result[gcnt] += a * a_s;
+                                }
                                 strike_k = false;
                                 gcnt++;
                                 fcount++;
                                 gcount++;
-                                btncount++;
                                 game_Count = 0;
-                                
-                               
+
+
                             }
 
                         }
                         else if (game_Count < 2)
                         {
 
-                            //int b = val_B.Next(c);
-                            int b = 1;
-                            bonus = bonus - b;
+                            int b = val_B.Next(strike_bonus);
+                            //int b = 3;
+                            bonus = strike_bonus - b;
                             for (int j = fcount; j <= gcount; j++)
                             {
-                                grid_1.Rows[gcnt].Cells[fcnt+1].Value = b;
-                                result[gcnt] += b*a_s;
+                                grid_1.Rows[gcnt].Cells[fcnt + 1].Value = b;
+                                if(strike[gcnt] ==0 && spare[gcnt]==0)
+                                {
+                                    a_s = 1;
+                                }
+                                result[gcnt] += b * a_s;
                             }
                             if (bonus == 0 && fcnt < 19)
                             {
+                                spare[gcnt] += 1;
                                 a_s = a_b + 1;
-                             
+
                             }
-                            
+
                             gcnt++;
                             fcount++;
                             gcount++;
                             game_Count = 0;
-       
+
 
                         }
 
                     }
-
-
                 }
-                else if (game_Frm == 10 && bonus == 0)
-                {
-                    if (game >= btncount)
-                    {
 
-                        for (int j = fcount; j <= gcount; j++)
-                        {
-                            grid_1.Rows[gcnt].Cells[fcnt].Value = a;
-                            result[gcnt] += a*a_s;
-                        }
-                     
-                        gcnt++;
-                        fcount++;
-                        gcount++;
-                        game_Count++;
-                        
-                    }
-                }
-              
-                else if (game_Frm == 10 && strike_bonus == 0)
+
+                else if (game_Frm == 10 && bonus == 0 && strike_bonus !=0)
                 {
                     if (game >= btncount)
                     {
@@ -282,6 +332,43 @@ namespace bolwing_Game
                         {
                             grid_1.Rows[gcnt].Cells[fcnt].Value = a;
                             result[gcnt] += a * a_s;
+                        }
+
+                        gcnt++;
+                        fcount++;
+                        gcount++;
+                        game_Count++;
+
+                    }
+                }
+                else if (game_Frm == 11 && bonus == 0 && strike_bonus != 0)
+                {
+                    if (game >= btncount)
+                    {
+
+                        for (int j = fcount; j <= gcount; j++)
+                        {
+                            grid_1.Rows[gcnt].Cells[fcnt].Value = a;
+                            result[gcnt] += a * a_s;
+                        }
+
+                        gcnt++;
+                        fcount++;
+                        gcount++;
+                        game_Count++;
+
+                    }
+                }
+
+                else if (game_Frm == 10 && strike_bonus == 0)
+                {
+                    if (game >= btncount)
+                    {
+
+                        for (int j = fcount; j <= gcount; j++)
+                        {
+                            grid_1.Rows[gcnt].Cells[fcnt].Value = a;
+                            result[gcnt] += a * 2;
                         }
 
                         gcnt++;
@@ -295,11 +382,13 @@ namespace bolwing_Game
                 {
                     if (game >= btncount)
                     {
-
-                        for (int j = fcount; j <= gcount; j++)
+                        if (grid_1.Rows[gcnt].Cells[fcnt-1].Value != null)
                         {
-                            grid_1.Rows[gcnt].Cells[fcnt].Value = a;
-                            result[gcnt] += a * a_s;
+                            for (int j = fcount; j <= gcount; j++)
+                            {
+                                grid_1.Rows[gcnt].Cells[fcnt].Value = a;
+                                result[gcnt] += a * 1;
+                            }
                         }
 
                         gcnt++;
@@ -314,7 +403,7 @@ namespace bolwing_Game
                 {
                     if (strike_bonus == 0)
                     {
-                        if (grid_1.Columns.Count == fcnt - 1)
+                        if (grid_1.Columns.Count == fcnt + 1)
                         {
                             grid_1.Rows[gcnt].Cells[fcnt].Value = result[gcnt];
                             gcnt++;
@@ -350,7 +439,7 @@ namespace bolwing_Game
                     {
                         if (grid_1.Columns.Count == fcnt + 2)
                         {
-                            grid_1.Rows[gcnt].Cells[fcnt+1].Value = result[gcnt];
+                            grid_1.Rows[gcnt].Cells[fcnt + 1].Value = result[gcnt];
                             gcnt++;
 
                             MessageBox.Show(gcnt + "번 게임이 완료되었습니다.!");
@@ -415,7 +504,7 @@ namespace bolwing_Game
                         }
                     }
 
-                    
+
                 }
 
             }
