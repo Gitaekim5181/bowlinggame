@@ -13,7 +13,6 @@ namespace bolwing_Game
     public partial class Form1 : Form
     {
         Boolean Handled_txt = false;
-        Boolean strike_k = false;
         int frm = 0;
         int fcount = 1;
         int gcount = 1;
@@ -28,25 +27,22 @@ namespace bolwing_Game
         int game_Count = 0;
         int game_Frm = 0;
         int game_Rows = 1;
-        int c = 0;
-        int strike_count = 0;
         int a_s = 1;
         int a_b = 1;
-        int a_c = 1;
-        int temp = 1;
         int bonus = 1;
         int strike_bonus = 1;
+        int a = 0;
+        int c = 0;
 
         public Form1()
         {
             InitializeComponent();
-            
+
         }
 
         private void txt1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!(char.IsDigit(e.KeyChar) || e.KeyChar == Convert.ToChar(Keys.Back)))
-
             {
                 e.Handled = true;
                 Handled_txt = true;
@@ -55,28 +51,21 @@ namespace bolwing_Game
             {
                 Handled_txt = false;
             }
-
-
         }
 
         private void txt1_TextChanged(object sender, EventArgs e)
         {
-            if (Handled_txt == false && txt1.Text!="")
+            if (Handled_txt == false && txt1.Text != "")
             {
                 int ipno = Convert.ToInt32(txt1.Text);
-                if (ipno <= 0 || ipno >8 )
+                if (ipno <= 0 || ipno > 8)
                 {
-
-                        MessageBox.Show("1-8사이만입력하세여");
-
-                        txt1.Text = "1";
-
-                        txt1.Focus();
-
-      
+                    MessageBox.Show("1-8사이만입력하세여");
+                    txt1.Text = "1";
+                    txt1.Focus();
                 }
 
-                
+
             }
             grid_1.Rows.Clear();
             grid_1.Refresh();
@@ -93,26 +82,27 @@ namespace bolwing_Game
             }
             else
             {
-                
+
                 frm = int.Parse(txt1.Text); //프레임 수
                 game = int.Parse(txt1.Text);// 게임참여 수
-               
-                    for (int i = 1; i <= frm; i++)
-                    {
-                        grid_1.Rows.Add(i + "번 핀수");
-                    }
+
+                for (int i = 1; i <= frm; i++)
+                {
+                    grid_1.Rows.Add(i + "번 핀수");
+                    grid_1.Rows.Add(i + "번 점수");
+                }
                 clear++;
 
             }
-            if(clear>=2)
+            if (clear >= 2)
             {
-             
-             grid_1.Rows.Clear();
-             grid_1.Refresh();
-             clear =0;
+
+                grid_1.Rows.Clear();
+                grid_1.Refresh();
+                clear = 0;
             }
-            
-            
+
+
 
         }
 
@@ -120,36 +110,32 @@ namespace bolwing_Game
         {
             Random val = new Random();
             Random val_B = new Random();
-
-            int a = val.Next(10);
-            //int a =10;
-            //int a = 7;
-            strike_bonus = 10 - a;
+            
             if (grid_1.Rows.Count > 0)
             {
                 if (game == btncount)
                 {
-                    a_c = btncount;
+                    c = 10 - a;
                     btncount = 0;
                     fcount = 1;
                     gcount = 1;
                 }
-                if(grid_1.Rows.Count-1 < gcnt)
+                if (grid_1.Rows.Count - 1 < gcnt)
                 {
                     gcnt = 0;
                     game_Frm++;
                     game_Rows++;
 
                 }
-                if(game_Frm <1)
+                if (game_Frm < 1)
                 {
                     fcnt = 0;
-            
+
                 }
-                if (game_Frm % 2 == 0) 
+                if (game_Frm % 2 == 0)
                 {
                     fcnt = game_Frm + game_Rows;
-                    if(game_Frm ==10 && strike_bonus == 0)
+                    if (game_Frm == 10 && strike_bonus == 0)
                     {
                         fcnt--;
                     }
@@ -160,16 +146,16 @@ namespace bolwing_Game
 
 
                 }
-                    if (game_Frm %2==1)
+                if (game_Frm % 2 == 1)
                 {
                     fcnt = game_Frm + game_Rows;
                     if (game_Frm >= 11 && strike_bonus == 0)
                     {
-                        fcnt= fcnt-2;
+                        fcnt = fcnt - 2;
                     }
 
                 }
-               
+
                 btncount++;
 
 
@@ -180,51 +166,81 @@ namespace bolwing_Game
                     {
                         if (game_Count < 1)
                         {
+                            a = val.Next(10);
+
+                            //a = 10;
+
+                            a = 5;
+                            c = 10 - a;
+                            strike_bonus = 10 - a;
 
                             for (int j = fcount; j <= gcount; j++)
                             {
-                                
                                 grid_1.Rows[gcnt].Cells[fcnt].Value = a;
-                                //c = 10 - a;
 
                             }
+                            if (strike[gcnt] >= 1)
+                            {
+                                grid_1.Rows[gcnt + 1].Cells[fcnt - 3].Value = result[gcnt];
+                            }
+                            //if(spare[gcnt]>=1 && grid_1.Rows[gcnt].Cells[fcnt-4].Value.ToString() == "10")
+                            //{
+                            //    grid_1.Rows[gcnt + 1].Cells[fcnt - 1].Value = result[gcnt]+a-10;
+                            //}
+                            //if (spare[gcnt] >= 1 && strike[gcnt] <=1)
+                            //{
+                            //    grid_1.Rows[gcnt + 1].Cells[fcnt - 1].Value = result[gcnt] + a-10;
+                            //}
+
                             if (a < 10)
                             {
                                 game_Count++;
-                                
 
-                                if(strike[gcnt] ==0 && spare[gcnt] >=  1)
+
+                                if (strike[gcnt] == 0 && spare[gcnt] >= 1)
                                 {
                                     a_s = 2;
 
-                                    if(spare[gcnt]!=0)
+                                    if (spare[gcnt] != 0)
                                     {
                                         spare[gcnt] -= 1;
                                     }
-                                    
+
                                 }
-                                
-                                else if (spare[gcnt]>= 1 && strike[gcnt] == 0)
+
+                                else if (spare[gcnt] == 0 && strike_bonus != 0)
                                 {
+                                    if (strike[gcnt] < 1)
+                                    {
+                                        if (a_s != 1)
+                                        {
+                                            a_s--;
+                                        }
+                                    }
                                     if (strike[gcnt] != 0)
                                     {
+                                        if(strike[gcnt] > 1)
+                                        {
+                                            a_s = 3;
+                                        }
+                                        else
+                                        {
+                                            a_s = 2;
+                                        }
                                         strike[gcnt] -= 1;
 
                                     }
-                                    if (a_s > 1)
-                                    {
-                                        a_s--;
-                                    }
+                                    
                                 }
 
                                 else if (spare[gcnt] == 0 && strike[gcnt] == 0)
                                 {
                                     a_s = 1;
                                 }
-
+                                
                                 result[gcnt] += a * a_s;
 
-
+                               
                             }
                             else
                             {
@@ -253,11 +269,6 @@ namespace bolwing_Game
                                             result[gcnt] += a * a_s;
                                         }
 
-                                        else
-                                        {
-                                            result[gcnt] += a * a_s;
-                                        }
-
 
                                     }
                                     else if (grid_1.Rows[gcnt].Cells[fcnt - 1].Value != null)
@@ -272,15 +283,16 @@ namespace bolwing_Game
                                             a_s--;
                                         }
 
-                                        //result[gcnt] += a * a_s;
+                                        result[gcnt] += a * a_s;
                                     }
                                 }
                                 else
                                 {
                                     result[gcnt] += a * a_s;
                                 }
-                                strike_k = false;
-                                gcnt++;
+                                
+                                
+                                gcnt =gcnt+2;
                                 fcount++;
                                 gcount++;
                                 game_Count = 0;
@@ -292,38 +304,60 @@ namespace bolwing_Game
                         else if (game_Count < 2)
                         {
 
-                            int b = val_B.Next(strike_bonus);
-                            //int b = 3;
-                            bonus = strike_bonus - b;
+                            int b = val_B.Next(c);
+
+                             b = 5;
+
+                            bonus = c - b;
                             for (int j = fcount; j <= gcount; j++)
                             {
                                 grid_1.Rows[gcnt].Cells[fcnt + 1].Value = b;
-                                if(strike[gcnt] ==0 && spare[gcnt]==0)
+                                
+                                if (strike[gcnt] == 0 && spare[gcnt] == 0)
                                 {
                                     a_s = 1;
                                 }
+                                else if (strike[gcnt] >= 1 && spare[gcnt] == 0)
+                                {
+                                    
+                                    if (a_s >= 2)
+                                    {
+                                        a_s--;
+                                    }
+
+                                }
                                 result[gcnt] += b * a_s;
+
+                                if(strike[gcnt]!=0)
+                                {
+                                    strike[gcnt] -= 1;
+                                }
+                                
                             }
-                            if (bonus == 0 && fcnt < 19)
+                            if (spare[gcnt] == 0 && bonus == 0 && fcnt < 19)
                             {
                                 spare[gcnt] += 1;
                                 a_s = a_b + 1;
 
                             }
-
-                            gcnt++;
+                            if(spare[gcnt]<1 && game_Frm !=9)
+                            {
+                                grid_1.Rows[gcnt + 1].Cells[fcnt + 1].Value = result[gcnt];
+                            }
+                            if (strike[gcnt] >=1  && game_Frm != 9)
+                            {
+                                grid_1.Rows[gcnt + 1].Cells[fcnt -1].Value = result[gcnt];
+                            }
+                            gcnt =gcnt+2;
                             fcount++;
                             gcount++;
                             game_Count = 0;
-
-
                         }
 
                     }
                 }
-
-
-                else if (game_Frm == 10 && bonus == 0 && strike_bonus !=0)
+    
+                else if (game_Frm == 10 && bonus == 0 && strike_bonus != 0)
                 {
                     if (game >= btncount)
                     {
@@ -334,81 +368,98 @@ namespace bolwing_Game
                             result[gcnt] += a * a_s;
                         }
 
-                        gcnt++;
+                        gcnt=gcnt+2;
                         fcount++;
                         gcount++;
                         game_Count++;
 
                     }
                 }
-                else if (game_Frm == 11 && bonus == 0 && strike_bonus != 0)
+                //else if (game_Frm == 11 && bonus == 0 && strike_bonus != 0)
+                //{
+                //    if (game >= btncount)
+                //    {
+
+                //        for (int j = fcount; j <= gcount; j++)
+                //        {
+                //            grid_1.Rows[gcnt].Cells[fcnt-1].Value = a;
+                //            result[gcnt] += a * a_s;
+                //        }
+
+                //        gcnt++;
+                //        fcount++;
+                //        gcount++;
+                //        game_Count++;
+
+                //    }
+                //}
+
+                else if (game_Frm >= 9 && game_Frm <12 && strike_bonus == 0)
                 {
                     if (game >= btncount)
                     {
-
+                        //if(game_Frm==10)
+                        //{
+                        //    grid_1.Rows[gcnt + 1].Cells[fcnt - 2].Value = result[gcnt];
+                        //}
+                        
                         for (int j = fcount; j <= gcount; j++)
                         {
+                           
                             grid_1.Rows[gcnt].Cells[fcnt].Value = a;
-                            result[gcnt] += a * a_s;
-                        }
-
-                        gcnt++;
-                        fcount++;
-                        gcount++;
-                        game_Count++;
-
-                    }
-                }
-
-                else if (game_Frm == 10 && strike_bonus == 0)
-                {
-                    if (game >= btncount)
-                    {
-
-                        for (int j = fcount; j <= gcount; j++)
-                        {
-                            grid_1.Rows[gcnt].Cells[fcnt].Value = a;
-                            result[gcnt] += a * 2;
-                        }
-
-                        gcnt++;
-                        fcount++;
-                        gcount++;
-                        game_Count++;
-
-                    }
-                }
-                else if (game_Frm == 11 && strike_bonus == 0)
-                {
-                    if (game >= btncount)
-                    {
-                        if (grid_1.Rows[gcnt].Cells[fcnt-1].Value != null)
-                        {
-                            for (int j = fcount; j <= gcount; j++)
+                            if(game_Frm==10)
                             {
-                                grid_1.Rows[gcnt].Cells[fcnt].Value = a;
-                                result[gcnt] += a * 1;
+                                
+                                a_s = 2;
                             }
+                            else if(game_Frm==11)
+                            {
+                                
+                                a_s = 1;
+                            }
+                            result[gcnt] += a * a_s;
+                            
                         }
 
-                        gcnt++;
+                        gcnt=gcnt+2;
                         fcount++;
                         gcount++;
                         game_Count++;
 
                     }
-
                 }
+                //else if (game_Frm == 11 && strike_bonus == 0)
+                //{
+                //    if (game >= btncount)
+                //    {
+                //        if (grid_1.Rows[gcnt].Cells[fcnt - 1].Value != null)
+                //        {
+                //            for (int j = fcount; j <= gcount; j++)
+                //            {
+                //                grid_1.Rows[gcnt].Cells[fcnt].Value = a;
+                //                result[gcnt] += a * 1;
+                //            }
+                //        }
+
+                //        gcnt++;
+                //        fcount++;
+                //        gcount++;
+                //        game_Count++;
+
+                //    }
+
+                //}
                 else
                 {
                     if (strike_bonus == 0)
                     {
                         if (grid_1.Columns.Count == fcnt + 1)
                         {
-                            grid_1.Rows[gcnt].Cells[fcnt].Value = result[gcnt];
-                            gcnt++;
+                           
+                            grid_1.Rows[gcnt+1].Cells[fcnt].Value = result[gcnt];
+                            gcnt=gcnt+2;
 
-                            MessageBox.Show(gcnt + "번 게임이 완료되었습니다.!");
+                            MessageBox.Show("게임이 완료되었습니다.!");
 
                         }
 
@@ -440,9 +491,9 @@ namespace bolwing_Game
                         if (grid_1.Columns.Count == fcnt + 2)
                         {
                             grid_1.Rows[gcnt].Cells[fcnt + 1].Value = result[gcnt];
-                            gcnt++;
+                            gcnt=gcnt+2;
 
-                            MessageBox.Show(gcnt + "번 게임이 완료되었습니다.!");
+                            MessageBox.Show("게임이 완료되었습니다.!");
 
                         }
 
@@ -474,7 +525,7 @@ namespace bolwing_Game
                         if (grid_1.Columns.Count == fcnt)
                         {
                             grid_1.Rows[gcnt].Cells[fcnt - 1].Value = result[gcnt];
-                            gcnt++;
+                            gcnt=gcnt+2;
 
                             MessageBox.Show(gcnt + "번 게임이 완료되었습니다.!");
 
@@ -536,22 +587,17 @@ namespace bolwing_Game
             this.grid_1.Columns.Add(" ", "합계");
 
             for (int i = 0; i < this.grid_1.ColumnCount; i++)
-
             {
 
                 this.grid_1.Columns[i].Width = 70;
 
             }
 
-
-
             this.grid_1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
 
-            this.grid_1.ColumnHeadersHeight = this.grid_1.ColumnHeadersHeight*2;
+            this.grid_1.ColumnHeadersHeight = this.grid_1.ColumnHeadersHeight * 2;
 
             this.grid_1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
-
-
 
             this.grid_1.ColumnWidthChanged += grid_1_ColumnWidthChanged;
 
@@ -565,7 +611,6 @@ namespace bolwing_Game
         private void grid_1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex == -1 && e.ColumnIndex > -1)
-
             {
                 Rectangle cellRectangle = e.CellBounds;
                 cellRectangle.Y += e.CellBounds.Height / 2;
@@ -580,12 +625,11 @@ namespace bolwing_Game
 
         private void grid_1_Paint(object sender, PaintEventArgs e)
         {
-            string[] parentHeaderArray = { "1번프레임", "2번프레임", "3번프레임", "4번프레임", "5번프레임", "6번프레임", "7번프레임", "8번프레임", "9번프레임", "10번프레임"};
+            string[] parentHeaderArray = { "1번프레임", "2번프레임", "3번프레임", "4번프레임", "5번프레임", "6번프레임", "7번프레임", "8번프레임", "9번프레임", "10번프레임" };
 
 
 
             for (int i = 1; i < 21;)
-
             {
 
                 Rectangle cellRectangle = this.grid_1.GetCellDisplayRectangle(i, -1, true);
@@ -594,27 +638,17 @@ namespace bolwing_Game
 
                 int nextCellWidth = this.grid_1.GetCellDisplayRectangle(i + 1, -1, true).Width;
 
-
-
                 cellRectangle.X += 1;
 
                 cellRectangle.Y += 1;
-
-
 
                 cellRectangle.Width = cellRectangle.Width + nextCellWidth - 2;
 
                 cellRectangle.Height = cellRectangle.Height / 2 - 2;
 
-
-
                 e.Graphics.FillRectangle(new SolidBrush(this.grid_1.ColumnHeadersDefaultCellStyle.BackColor), cellRectangle);
 
-
-
                 StringFormat stringFormat = new StringFormat();
-
-
 
                 stringFormat.Alignment = StringAlignment.Center;
 
@@ -637,8 +671,6 @@ namespace bolwing_Game
                     stringFormat
 
                 );
-
-
 
                 i += 2;
 
