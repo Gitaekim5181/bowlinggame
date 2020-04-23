@@ -14,6 +14,14 @@ namespace dtolBowling
     public partial class Form1 : Form
     {
         int frameCnt = 1;
+        int rowFrame1 = 1;
+        int rowFrame2 = 1;
+        int rowFrame3 = 1;
+        int rowFrame4 = 1;
+        int rowFrame5 = 1;
+        int rowFrame6 = 1;
+        int rowFrame7 = 1;
+        int rowFrame8 = 1;
         bool isFirst = true;
         int strike = 0;
         bool spare = false;
@@ -158,7 +166,7 @@ namespace dtolBowling
             if (!firstRoll)
             {
                 string roll = Convert.ToString(rnd.Next(0, 11));
-                //string roll = "10";
+                roll = "10";
                 if (roll.Equals("10"))
                 {
                     dataGridView1.Rows[e.RowIndex].Cells[frame].Value = "X";
@@ -260,9 +268,11 @@ namespace dtolBowling
             if (strikeCnt >= 3)
             {
                 dataGridView1.Rows[e.RowIndex + 1].Cells[frame - 2].Value = jumsu + 30 + result;
+                jumsu = jumsu + 30 + result;
                 if (!cFlag)
                 {
-                    jumsu = jumsu + 30 + result;
+                    dataGridView1.Rows[e.RowIndex + 1].Cells[frame - 1].Value = jumsu + result + 10;
+                    jumsu = jumsu + result + 10;
                     dataGridView1.Rows[e.RowIndex + 1].Cells[frame].Value = jumsu + result;
                     jumsu = jumsu + result;
                 }
