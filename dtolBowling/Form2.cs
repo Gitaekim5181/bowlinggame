@@ -379,7 +379,7 @@ namespace dtolBowling
                 dataGridView1.Rows[userrail].Cells[cellCnt].Value = txtroll + "  |  " + bonusroll1;
                 if(bStrike)
                 {
-                    sum = scoreSum(framelist, userrail, cSpare, false) + 10;
+                    sum = scoreSum(framelist, userrail, cSpare, false);
                     dataGridView1.Rows[userrail + 1].Cells[cellCnt - 1].Value = sum.ToString();
                     framelist.Clear();
                     framelist.Add(sum);
@@ -387,8 +387,12 @@ namespace dtolBowling
                 }
                 if(strikecount >= 8)
                 {
-                    sum = scoreSum(framelist, userrail, cSpare, false) + 10;
+                    sum = scoreSum(framelist, userrail, cSpare, false) + 20;
                     dataGridView1.Rows[userrail + 1].Cells[cellCnt - 1].Value = sum.ToString();
+                    framelist.Clear();
+                    framelist.Add(sum);
+                    framelist.Add(10);
+                    framelist.Add(bonus1);
                 }
                 strike[userrail / 2] = false;
                 spare[userrail / 2] = true;
@@ -402,8 +406,7 @@ namespace dtolBowling
                 {
                     bonusroll = "X";
                     framelist.Add(bonus);
-                    framelist.Add(10);
-                    if(strikecount > 8)
+                    if(strikecount >= 8)
                     {
                         framelist.Add(20);
                     }
@@ -426,7 +429,7 @@ namespace dtolBowling
                     txtroll = first.ToString();
                 }
                 dataGridView1.Rows[userrail].Cells[cellCnt].Value = txtroll + "  |  " + bonusroll2 + "  |  " + bonusroll;
-                sum = scoreSum(framelist, userrail, cSpare, false);
+                sum = scoreSum(framelist, userrail, cSpare, cStrike);
                 dataGridView1.Rows[userrail + 1].Cells[cellCnt].Value = sum.ToString();
                 userCnt += 2;
                 frameCnt--;
@@ -435,7 +438,7 @@ namespace dtolBowling
             }
             else
             {
-                MessageBox.Show("Test");
+                MessageBox.Show("게임 종료");
             }
         }
 
