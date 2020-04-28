@@ -14,14 +14,6 @@ namespace dtolBowling
     public partial class Form1 : Form
     {
         int frameCnt = 1;
-        int rowFrame1 = 1;
-        int rowFrame2 = 1;
-        int rowFrame3 = 1;
-        int rowFrame4 = 1;
-        int rowFrame5 = 1;
-        int rowFrame6 = 1;
-        int rowFrame7 = 1;
-        int rowFrame8 = 1;
         bool isFirst = true;
         int strike = 0;
         bool spare = false;

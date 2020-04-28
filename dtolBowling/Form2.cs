@@ -7,14 +7,16 @@ namespace dtolBowling
 {
     public partial class Form2 : Form
     {
-        
+        bool isFirst = true;
+        bool bStrike = false;
         int user = 0; 
         int userCnt = 0;
         int cellCnt = 1; 
         int frameCnt = 0; 
         int first = 0;
         int second = 0;
-        int jumsu = 0;
+        string bonusroll1 = string.Empty;
+        string bonusroll2 = string.Empty;
         List<int> frameSum1 = new List<int>();
         List<int> frameSum2 = new List<int>();
         List<int> frameSum3 = new List<int>();
@@ -23,12 +25,10 @@ namespace dtolBowling
         List<int> frameSum6 = new List<int>();
         List<int> frameSum7 = new List<int>();
         List<int> frameSum8 = new List<int>();
-
         bool[] spare = new bool[8] { false, false, false, false, false, false, false, false };
         bool[] strike = new bool[8] { false, false, false, false, false, false, false, false };
         int[] spareCnt = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
         int[] strikeCnt = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
-        bool isFirst = true;
 
         public Form2()
         {
@@ -63,6 +63,7 @@ namespace dtolBowling
             if (txtUser.TextLength < 1) //사용자 수 입력없으면 입력안내
             {
                 MessageBox.Show("사용자수 입력");
+                txtUser.Focus();
                 return;
             }
             DataRow row = null;
@@ -143,6 +144,36 @@ namespace dtolBowling
                     button2.PerformClick();
                 }
             }
+            else if(frameCnt == 11)
+            {
+                switch (userCnt)
+                {
+                    case 0:
+                        bonusGame(frameSum1, userCnt, spare[0], strike[0], strikeCnt[0]);
+                        break;
+                    case 2:
+                        bonusGame(frameSum2, userCnt, spare[1], strike[1], strikeCnt[1]);
+                        break;
+                    case 4:
+                        bonusGame(frameSum3, userCnt, spare[2], strike[2], strikeCnt[2]);
+                        break;
+                    case 6:
+                        bonusGame(frameSum4, userCnt, spare[3], strike[3], strikeCnt[3]);
+                        break;
+                    case 8:
+                        bonusGame(frameSum5, userCnt, spare[4], strike[4], strikeCnt[4]);
+                        break;
+                    case 10:
+                        bonusGame(frameSum6, userCnt, spare[5], strike[5], strikeCnt[5]);
+                        break;
+                    case 12:
+                        bonusGame(frameSum7, userCnt, spare[6], strike[6], strikeCnt[6]);
+                        break;
+                    case 14:
+                        bonusGame(frameSum8, userCnt, spare[7], strike[7], strikeCnt[7]);
+                        break;
+                }
+            }
             else
             {
                 MessageBox.Show("게임종료");
@@ -162,32 +193,54 @@ namespace dtolBowling
                 {
                     rollNum = "X";
                     framelist.Add(first);
-                    userCnt += 2;
                     isFirst = true;
                     strike[userrail / 2] = true;
-                    if (strikecount >= 2)
+                    if (strikecount == 2)
                     {
-                        dataGridView1.Rows[userrail + 1].Cells[cellCnt - 2].Value = first + 20;
+                        sum = scoreSum(framelist, userCnt, cSpare, false);
+                        dataGridView1.Rows[userrail + 1].Cells[cellCnt - 2].Value = sum;
+                    }
+                    else if (strikecount >= 3)
+                    {
                         framelist.Add(20);
+                        sum = scoreSum(framelist, userCnt, cSpare, false);
+                        dataGridView1.Rows[userrail + 1].Cells[cellCnt - 2].Value = sum;
                     }
-                    else if (strikecount == 1)
-                    {
-                        dataGridView1.Rows[userrail + 1].Cells[cellCnt - 1].Value = first + 10;
-                        framelist.Add(10);
-                    }
+                    userCnt += 2;
                     strikeCnt[userrail / 2]++;
+                    if(frameCnt == 10)
+                    {
+                        userCnt -= 2;
+                        frameCnt++;
+                    }
+                    if(frameCnt == 9)
+                    {
+                        bStrike = true;
+                    }
                 }
                 else
                 {
                     rollNum = first.ToString();
                     framelist.Add(first);
                     isFirst = false;
+                    if (strikecount == 2)
+                    {
+                        sum = scoreSum(framelist, userCnt, cSpare, false);
+                        dataGridView1.Rows[userrail + 1].Cells[cellCnt - 2].Value = sum;
+                    }
+                    if (strikecount >= 3)
+                    {
+                        framelist.Add(20);
+                        sum = scoreSum(framelist, userCnt, cSpare, false);
+                        dataGridView1.Rows[userrail + 1].Cells[cellCnt - 2].Value = sum;
+                    }
                 }
                 if(cSpare)
                 {
-                    sum = scoreSum(framelist, userCnt, cSpare, cStrike);
+                    sum = scoreSum(framelist, userCnt, cSpare, false);
                     framelist.Add(first);
                     spare[userrail / 2] = false;
+                    spareCnt[userrail / 2] = 0;
                     dataGridView1.Rows[userrail + 1].Cells[cellCnt - 1].Value = sum.ToString();
                 }
                 dataGridView1.Rows[userrail].Cells[cellCnt].Value = rollNum;
@@ -195,6 +248,7 @@ namespace dtolBowling
             else
             {
                 second = rnd.Next(0, 11);
+                //second = 10;
                 if (first + second >= 10)
                 {
                     rollNum = "/";
@@ -203,22 +257,55 @@ namespace dtolBowling
                     second = 10;
                     framelist.RemoveAt(framelist.Count - 1);
                     framelist.Add(second);
-                    if(cStrike)
+                    if (strikecount == 1)
                     {
-                        sum = scoreSum(framelist, userCnt, cSpare, cStrike);
-                        dataGridView1.Rows[userrail + 1].Cells[cellCnt].Value = sum.ToString();
-                        dataGridView1.Rows[userrail + 1].Cells[cellCnt].Value = "";
+                        sum = scoreSum(framelist, userCnt, true, cStrike);
+                        dataGridView1.Rows[userrail + 1].Cells[cellCnt - 1].Value = sum.ToString();
+                        framelist.Add(10);
+                    }
+                    else if (strikecount == 2)
+                    {
+                        framelist.Add(10);
+                        framelist.Add(first);
+                        sum = scoreSum(framelist, userCnt, true, cStrike);
+                        dataGridView1.Rows[userrail + 1].Cells[cellCnt - 1].Value = sum.ToString();
+                        framelist.Add(10);
+                    }
+                    else if (strikecount >= 3)
+                    {
+                        framelist.Add(30);
+                        sum = scoreSum(framelist, userCnt, true, cStrike);
+                        dataGridView1.Rows[userrail + 1].Cells[cellCnt - 1].Value = sum.ToString();
+                        framelist.Add(10);
+                    }
+                    strikeCnt[userrail / 2] = 0;
+                    strike[userrail / 2] = false;
+                    if (frameCnt == 10)
+                    {
+                        userCnt -= 2;
+                        frameCnt++;
                     }
                 }
                 else
                 {
+                    if (strikecount == 2)
+                    {
+                        framelist.Add(10);
+                        framelist.Add(first);
+                    }
+                    else if (strikecount >= 3)
+                    {
+                       framelist.Add(30);
+                    }
                     rollNum = second.ToString();
                     framelist.Add(second);
                     sum = scoreSum(framelist, userCnt, cSpare, cStrike);
                     dataGridView1.Rows[userrail + 1].Cells[cellCnt].Value = sum.ToString();
+
                     spare[userrail / 2] = false;
                     spareCnt[userrail / 2] = 0;
                     strikeCnt[userrail / 2] = 0;
+                    strike[userrail / 2] = false;
                 }
                 dataGridView1.Rows[userrail].Cells[cellCnt].Value = first.ToString() + "  |  " + rollNum;
                 userCnt += 2;
@@ -234,7 +321,6 @@ namespace dtolBowling
                 for (int i = 0; i < framelist.Count; i++)
                 {
                     sum += framelist[i];
-                    //dataGridView1.Rows[userrail + 1].Cells[cellCnt - 1].Value = sum.ToString();
                 }
             }
             else if(cStrike)
@@ -244,9 +330,7 @@ namespace dtolBowling
                     sum += framelist[i];
                     dataGridView1.Rows[userrail + 1].Cells[cellCnt - 1].Value = sum.ToString();
                 }
-                strike[userrail / 2] = false;
-                sum = sum + framelist[framelist.Count - 1] + framelist[framelist.Count - 2];
-                //dataGridView1.Rows[userrail + 1].Cells[cellCnt].Value = sum.ToString();
+                sum = sum + framelist[framelist.Count-1] + framelist[framelist.Count - 2];
                 framelist.Clear();
                 framelist.Add(sum);
             }
@@ -255,10 +339,104 @@ namespace dtolBowling
                 for (int i = 0; i < framelist.Count; i++)
                 {
                     sum += framelist[i];
-                    //dataGridView1.Rows[userrail + 1].Cells[cellCnt].Value = sum.ToString();
                 }
             }
             return sum;
+        }
+
+        private void bonusGame(List<int> framelist, int userrail, bool cSpare, bool cStrike, int strikecount)
+        {
+            int sum = 0;
+            Random rnd = new Random();
+            string txtroll = string.Empty;
+            string txtroll2 = string.Empty;
+            bonusroll1 = second.ToString();
+            int bonus1 = 0;
+            if (cStrike)
+            {
+                bonus1 = rnd.Next(0, 11);
+                //bonus1 = 10;
+                if (bonus1.Equals(10))
+                {
+                    bonusroll1 = "X";
+                    bonusroll2 = bonusroll1;
+                    framelist.Add(bonus1);
+                }
+                else
+                {
+                    bonusroll1 = bonus1.ToString();
+                    framelist.Add(bonus1);
+                    bonusroll2 = bonusroll1;
+                }
+                if(first.Equals(10))
+                {
+                    txtroll = "X";
+                }
+                else
+                {
+                    txtroll = first.ToString();
+                }
+                dataGridView1.Rows[userrail].Cells[cellCnt].Value = txtroll + "  |  " + bonusroll1;
+                if(bStrike)
+                {
+                    sum = scoreSum(framelist, userrail, cSpare, false) + 10;
+                    dataGridView1.Rows[userrail + 1].Cells[cellCnt - 1].Value = sum.ToString();
+                    framelist.Clear();
+                    framelist.Add(sum);
+                    bStrike = false;
+                }
+                if(strikecount >= 8)
+                {
+                    sum = scoreSum(framelist, userrail, cSpare, false) + 10;
+                    dataGridView1.Rows[userrail + 1].Cells[cellCnt - 1].Value = sum.ToString();
+                }
+                strike[userrail / 2] = false;
+                spare[userrail / 2] = true;
+            }
+            else if (cSpare)
+            {
+                string bonusroll = string.Empty;
+                int bonus = rnd.Next(0, 11);
+                //bonus = 10;
+                if (bonus.Equals(10))
+                {
+                    bonusroll = "X";
+                    framelist.Add(bonus);
+                    framelist.Add(10);
+                    if(strikecount > 8)
+                    {
+                        framelist.Add(20);
+                    }
+                }
+                else
+                {
+                    bonusroll = bonus.ToString();
+                    framelist.Add(bonus);
+                }
+                if(first + second >= 10 && first != 10)
+                {
+                    bonusroll2 = "/";
+                }
+                if(first.Equals(10))
+                {
+                    txtroll = "X";
+                }
+                else
+                {
+                    txtroll = first.ToString();
+                }
+                dataGridView1.Rows[userrail].Cells[cellCnt].Value = txtroll + "  |  " + bonusroll2 + "  |  " + bonusroll;
+                sum = scoreSum(framelist, userrail, cSpare, false);
+                dataGridView1.Rows[userrail + 1].Cells[cellCnt].Value = sum.ToString();
+                userCnt += 2;
+                frameCnt--;
+                strike[userrail / 2] = false;
+                spare[userrail / 2] = false;
+            }
+            else
+            {
+                MessageBox.Show("Test");
+            }
         }
 
         private void allClear()
