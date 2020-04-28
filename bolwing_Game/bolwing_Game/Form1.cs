@@ -192,7 +192,7 @@ namespace bolwing_Game
 
                             //a = 10;
 
-                            a = 5;
+                            //a = 5;
                             c = 10 - a;
                             strike_bonus = 10 - a;
                             //strike_j[gcnt] -= 10;
@@ -288,7 +288,7 @@ namespace bolwing_Game
 
                             b = val_B.Next(c);
 
-                            b = 5;
+                            //b = 5;
                             //b = 10;
                             bonus = c - b;
                             game_Roll[gcnt]++;
