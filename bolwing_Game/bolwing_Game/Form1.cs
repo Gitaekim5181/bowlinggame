@@ -187,7 +187,7 @@ namespace bolwing_Game
                         {
                             a = val.Next(10);
 
-                            //a = 10;
+                            a = 10;
 
                             //a = 5;
                             c = 10 - a;
@@ -270,11 +270,23 @@ namespace bolwing_Game
 
                         else if (game_Boll == 2)
                         {
+                            if (grid_1.Rows[gcnt].Cells[fcnt].Value.ToString()=="10")
+                            {
+                                if(strike[gcnt] >= 1)
+                                {
+                                    c = 10;
+                                }
+                                else
+                                {
+                                    c = 10 - a;
+                                }
+                                
+                            }
 
                             b = val_B.Next(c);
 
                             //b = 5;
-
+                            //b = 10;
                             bonus = c - b;
                             game_Roll[gcnt]++;
                             grid_1.Rows[gcnt].Cells[fcnt + 1].Value = b;
@@ -285,46 +297,64 @@ namespace bolwing_Game
 
                                 if (game_Roll[gcnt] == 20 && strike_bonus == 0)
                                 {
-                                    grid_1.Rows[gcnt].Cells[fcnt + 1].Value = a;
+                                    grid_1.Rows[gcnt].Cells[fcnt + 1].Value = b;
                                     strike_j[gcnt] -= 10;
+                                    result[gcnt] += b + strike_j[gcnt];
+                                    grid_1.Rows[gcnt + 1].Cells[fcnt - 1].Value = result[gcnt];
                                 }
                                 else
                                 {
-                                    grid_1.Rows[gcnt].Cells[fcnt + 1].Value = b;
-                                    
+                                    if (grid_1.Rows[gcnt].Cells[fcnt - 1].Value == null && bonus != 0)
+                                    {
+
+                                        result[gcnt] += a + b + strike_j[gcnt];
+                                        strike_j[gcnt] -= 10;
+                                        grid_1.Rows[gcnt + 1].Cells[fcnt - 1].Value = result[gcnt];
+                                        strike[gcnt]--;
+                                    }
+                                    if (grid_1.Rows[gcnt].Cells[fcnt - 1].Value == null && bonus == 0)
+                                    {
+
+                                        result[gcnt] += a + b + strike_j[gcnt];
+                                        strike_j[gcnt] -= 10;
+                                        grid_1.Rows[gcnt + 1].Cells[fcnt - 1].Value = result[gcnt];
+                                        strike[gcnt]--;
+                                    }
+
+
                                 }
-                                result[gcnt] += b + a + strike_j[gcnt];
+                                
 
                                 //strike_j[gcnt]+=10;  //마지막프레임 보너스 경기에 10점이 필요함
-                                grid_1.Rows[gcnt + 1].Cells[fcnt - 1].Value = result[gcnt];
-                            }
-                            if (bonus != 0)
-                            {
-                                if (grid_1.Rows[gcnt].Cells[fcnt - 1].Value == null)
-                                {
-                                    
-                                    result[gcnt] += a + b + strike_j[gcnt];
-                                    strike_j[gcnt] -= 10;
-                                    grid_1.Rows[gcnt + 1].Cells[fcnt - 1].Value = result[gcnt];
-                                }
-                                result[gcnt] += a + b;
-                                grid_1.Rows[gcnt + 1].Cells[fcnt + 1].Value = result[gcnt]; //스트라이크 후 +1 할필요가 없어서 확인중
+                                
                             }
                             if (bonus == 0 && strike_bonus != 0)
                             {
                                 spare[gcnt] += 2;
                                 spare_j[gcnt] += 10;
                                 
-                                strike[gcnt] -= 1;
-                                strike_j[gcnt] -= 10;
+                                //strike[gcnt] -= 1;
+                                //strike_j[gcnt] -= 10;
                             }
-                            if (game_Roll[gcnt] == 20 && bonus == 0)
+                            if (game_Roll[gcnt] == 20 && (strike_bonus==0 ||bonus == 0))
                             {
-                                //game_Boll = 3;
+                                game_Boll = 3;
                             }
 
                             else
                             {
+                                //if(bonus != 0 && game_Roll[gcnt] == 20)
+                                //{
+                                //    result[gcnt] += a + b;
+                                //    grid_1.Rows[gcnt + 1].Cells[fcnt + 1].Value = result[gcnt];
+                                //}
+                                
+                                if (grid_1.Rows[gcnt + 1].Cells[fcnt - 1].Value != null && bonus != 0)
+                                {
+                                    result[gcnt] += a + b;
+                                    grid_1.Rows[gcnt + 1].Cells[fcnt + 1].Value = result[gcnt]; //스트라이크 후 +1 할필요가 없어서 확인중
+
+                                }
                                 gcnt += 2;
                                 game_Boll = 1;//game_Count = 0;
                             }
@@ -345,7 +375,7 @@ namespace bolwing_Game
                             if (strike_bonus == 0)
                             {
                                 strike_j[gcnt] = 10;
-                                result[gcnt] += bonus_boll + a + strike_j[gcnt];
+                                result[gcnt] += bonus_boll + a + b;
 
                                 grid_1.Rows[gcnt + 1].Cells[fcnt + 2].Value = result[gcnt];
                                 game_Roll[gcnt] = 21;
