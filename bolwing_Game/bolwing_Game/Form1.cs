@@ -58,6 +58,7 @@ namespace bolwing_Game
 
         private void txt1_TextChanged(object sender, EventArgs e)
         {
+          
             if (Handled_txt == false && txt1.Text != "")
             {
                 int ipno = Convert.ToInt32(txt1.Text);
@@ -70,6 +71,7 @@ namespace bolwing_Game
 
 
             }
+            Restart_Game();
             grid_1.Rows.Clear();
             grid_1.Refresh();
             Handled_txt = true;
@@ -77,6 +79,7 @@ namespace bolwing_Game
 
         private void Bnt_Start_Click(object sender, EventArgs e)
         {
+         
             if (txt1.Text == "" || txt1.Text == null)
             {
                 MessageBox.Show("참가인원을 입력해주세요 인원은 최대 8명까지 입니다.");
@@ -187,9 +190,9 @@ namespace bolwing_Game
                         {
                             a = val.Next(10);
 
-                            a = 10;
+                            //a = 10;
 
-                            //a = 5;
+                            a = 5;
                             c = 10 - a;
                             strike_bonus = 10 - a;
                             //strike_j[gcnt] -= 10;
@@ -285,7 +288,7 @@ namespace bolwing_Game
 
                             b = val_B.Next(c);
 
-                            //b = 5;
+                            b = 5;
                             //b = 10;
                             bonus = c - b;
                             game_Roll[gcnt]++;
@@ -473,44 +476,50 @@ namespace bolwing_Game
         }
         private void Reset_Game()
         {
-                MessageBox.Show("새로 시작하세요 모든 게임이 완료되었습니다.!");
-                for (int i = 0; i < grid_1.Columns.Count; i++)
-                {
-                    for (int j = 0; j < grid_1.Rows.Count; j++)
-                    {
-                        grid_1.Rows[j].Cells[i].DataGridView.Rows.Clear();
+           
+            MessageBox.Show("새로 시작하세요 모든 게임이 완료되었습니다.!");
+            txt1.Text = "";
+            Restart_Game();
 
-                    }
-                }
-                txt1.Text = "";
-                fcnt = 0;
-                btncount = 0;
-                game_Frm = 0;
-                game_Rows = 1;
-                btncount = 0;
-                game = 0;
-                gcnt = 0;
-                fcnt = 0;
-                game_Frm = 0;
-                game_Rows = 1;
-                bonus = 1;
-                strike_bonus = 1;
-                a = 0;
-                b = 0;
-                c = 0;
-                game_Boll = 1;
-                for (int j = 0; j < result.Length; j++)
-                {
-                    result[j] = 0;
-                    strike[j] = 0;
-                    spare[j] = 0;
-                    game_Roll[j] = 0;
-                    strike_j[j] = 0;
-                    spare_j[j] = 0;
-                }
-            
+
         }
+        private void Restart_Game()
+        {
+            for (int i = 0; i < grid_1.Columns.Count; i++)
+            {
+                for (int j = 0; j < grid_1.Rows.Count; j++)
+                {
+                    grid_1.Rows[j].Cells[i].DataGridView.Rows.Clear();
 
+                }
+            }
+            
+            fcnt = 0;
+            btncount = 0;
+            game_Frm = 0;
+            game_Rows = 1;
+            btncount = 0;
+            game = 0;
+            gcnt = 0;
+            fcnt = 0;
+            game_Frm = 0;
+            game_Rows = 1;
+            bonus = 1;
+            strike_bonus = 1;
+            a = 0;
+            b = 0;
+            c = 0;
+            game_Boll = 1;
+            for (int j = 0; j < result.Length; j++)
+            {
+                result[j] = 0;
+                strike[j] = 0;
+                spare[j] = 0;
+                game_Roll[j] = 0;
+                strike_j[j] = 0;
+                spare_j[j] = 0;
+            }
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
