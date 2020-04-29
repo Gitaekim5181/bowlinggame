@@ -95,7 +95,7 @@
             // 
             // btn_Roll
             // 
-            this.btn_Roll.Location = new System.Drawing.Point(126, 137);
+            this.btn_Roll.Location = new System.Drawing.Point(126, 157);
             this.btn_Roll.Name = "btn_Roll";
             this.btn_Roll.Size = new System.Drawing.Size(75, 23);
             this.btn_Roll.TabIndex = 2;
@@ -114,7 +114,7 @@
             // 
             // Bnt_Start
             // 
-            this.Bnt_Start.Location = new System.Drawing.Point(126, 94);
+            this.Bnt_Start.Location = new System.Drawing.Point(126, 107);
             this.Bnt_Start.Name = "Bnt_Start";
             this.Bnt_Start.Size = new System.Drawing.Size(75, 23);
             this.Bnt_Start.TabIndex = 0;
