@@ -180,12 +180,12 @@ namespace dtolBowling
             }
         }
 
-        private void rollData(List<int> framelist, int userrail, bool cSpare, bool cStrike, int sparecount, int strikecount)
+        private void rollData(List<int> framelist, int userrail, bool cSpare, bool cStrike, int sparecount, int strikecount) //볼링 게임점수 생성
         {
             Random rnd = new Random();
             string rollNum = string.Empty;
             int sum = 0;
-            if (isFirst)
+            if (isFirst)//첫번째 공 칠경우
             {
                 first = rnd.Next(0, 11);
                 //first = 10;
@@ -313,17 +313,10 @@ namespace dtolBowling
             }
         }
 
-        private int scoreSum(List<int> framelist, int userrail, bool cSpare, bool cStrike)
+        private int scoreSum(List<int> framelist, int userrail, bool cSpare, bool cStrike) //점수계산
         {
             int sum = 0;
-            if (cSpare)
-            {
-                for (int i = 0; i < framelist.Count; i++)
-                {
-                    sum += framelist[i];
-                }
-            }
-            else if(cStrike)
+            if(cStrike) //스트라이크일 경우
             {
                 for (int i = 0; i < framelist.Count; i++)
                 {
@@ -334,7 +327,7 @@ namespace dtolBowling
                 framelist.Clear();
                 framelist.Add(sum);
             }
-            else
+            else //스트라이크 아닐 경우
             {
                 for (int i = 0; i < framelist.Count; i++)
                 {
@@ -344,7 +337,7 @@ namespace dtolBowling
             return sum;
         }
 
-        private void bonusGame(List<int> framelist, int userrail, bool cSpare, bool cStrike, int strikecount)
+        private void bonusGame(List<int> framelist, int userrail, bool cSpare, bool cStrike, int strikecount) //10프레임 스트라이크 / 스페어일 경우 보너스 게임
         {
             int sum = 0;
             Random rnd = new Random();
@@ -442,7 +435,7 @@ namespace dtolBowling
             }
         }
 
-        private void allClear()
+        private void allClear() //초기화
         {
             userCnt = 0;
             cellCnt = 1;
