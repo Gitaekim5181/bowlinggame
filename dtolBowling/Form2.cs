@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
+//using System.Data.OracleClient;
+using System.Configuration;
+using Oracle.ManagedDataAccess.Client;
 
 namespace dtolBowling
 {
@@ -30,9 +34,20 @@ namespace dtolBowling
         int[] spareCnt = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
         int[] strikeCnt = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
 
+        List<Panel> pnllist = new List<Panel>();
+        List<TextBox> txtlist = new List<TextBox>();
+        //List<TextBox> txtmaillist = new List<TextBox>();
+
         public Form2()
         {
             InitializeComponent();
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+            DataClear();
+            btnSave.Visible = false;
+            button2.Enabled = false;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -60,46 +75,27 @@ namespace dtolBowling
         private void button1_Click(object sender, EventArgs e)
         {
             allClear();
+            DataClear();
             if (txtUser.TextLength < 1) //사용자 수 입력없으면 입력안내
             {
                 MessageBox.Show("사용자수 입력");
                 txtUser.Focus();
                 return;
             }
-            DataRow row = null;
-            DataTable dt = new DataTable();
-            DataColumn[] frame = { new DataColumn("1"), new DataColumn("2"), new DataColumn("3"), new DataColumn("4"), new DataColumn("5"), new DataColumn("6"), new DataColumn("7"), new DataColumn("8"), new DataColumn("9"), new DataColumn("10") };
-
-            dt.Columns.Add(new DataColumn("레일"));
-            dt.Columns.AddRange(frame);
-
-            dataGridView1.DataSource = dt;
-            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             user = int.Parse(txtUser.Text);
-            int rail = 1;
-            for (int i = 1; i < user * 2 + 1; i++)
+
+            groupBox1.Visible = true;
+            for (int i = 0; i < user; i++)
             {
-                if (i % 2 != 0)
-                {
-                    row = dt.NewRow();
-                    row.ItemArray = new object[] { $"{rail}번 레일" };
-                    dt.Rows.Add(row);
-                    rail++;
-                }
-                else
-                {
-                    row = dt.NewRow();
-                    row.ItemArray = new object[] { "점수합계" };
-                    dt.Rows.Add(row);
-                }
+                pnllist[i].Visible = true;
             }
+            button3.Visible = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.DataSource == null)
+            if (txtUser.Text.Length < 1)
             {
                 return;
             }
@@ -177,6 +173,7 @@ namespace dtolBowling
             else
             {
                 MessageBox.Show("게임종료");
+                btnSave.Visible = true;
             }
         }
 
@@ -259,7 +256,7 @@ namespace dtolBowling
                     framelist.Add(second);
                     if (strikecount == 1)
                     {
-                        sum = scoreSum(framelist, userCnt, true, cStrike);
+                        sum = scoreSum(framelist, userCnt, true, false);
                         dataGridView1.Rows[userrail + 1].Cells[cellCnt - 1].Value = sum.ToString();
                         framelist.Add(10);
                     }
@@ -432,6 +429,7 @@ namespace dtolBowling
             else
             {
                 MessageBox.Show("게임 종료");
+                btnSave.Visible = true;
             }
         }
 
@@ -453,6 +451,212 @@ namespace dtolBowling
             strike = new bool[8] { false, false, false, false, false, false, false, false };
             spareCnt = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
             strikeCnt = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
+        }
+        
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if(txtFrame1.Text.Length < 1)
+            {
+                MessageBox.Show("플레이어명을 입력해주세요.");
+                return;
+            }
+            List<string> name = new List<string>();
+            List<int> score = new List<int>();
+            //List<string> mail = new List<string>();
+
+            //mail.Add(txtMail1.Text);
+            name.Add(txtFrame1.Text);
+            score.Add(Convert.ToInt32(dataGridView1[10, 1].Value));
+            if (user > 1)
+            {
+                for (int i = 2; i <= user; i++)
+                {
+                    name.Add(txtlist[i - 1].Text);
+                    //mail.Add(txtmaillist[i - 1].Text);
+                    score.Add(Convert.ToInt32(dataGridView1[10, (i+1)*2-3].Value));
+                }
+            }
+            
+            string connStr = ConfigurationManager.ConnectionStrings["MyDB"].ConnectionString;
+            OracleConnection oraConn = new OracleConnection(connStr);
+            oraConn.Open();
+            OracleTransaction sTrans = oraConn.BeginTransaction();
+            OracleCommand oraCmd = new OracleCommand();
+            try
+            {
+                oraCmd.Transaction = sTrans;
+
+                oraCmd.CommandText = "INSERT INTO GameData (name, score, dated) VALUES (:name, :score, to_char(sysdate,'yyyy/mm/dd HH:MI'))";
+                oraCmd.Connection = oraConn;
+                
+                for (int i = 0; i < user; i++)
+                {
+                    oraCmd.Parameters.Clear();
+                    //oraCmd.Parameters.Add(new OracleParameter("mail", mail[i]));
+                    oraCmd.Parameters.Add(new OracleParameter("name", name[i]));
+                    oraCmd.Parameters.Add(new OracleParameter("score", score[i]));
+                    oraCmd.ExecuteNonQuery();
+                }
+                //oraCmd.CommandText = "INSERT INTO FrameData (name, frame, record, dated) VALUES (:name, :frame, :record, to_char(sysdate,'yyyy/mm/dd HH:MI'))";
+                //for (int i = 0; i < user; i++)
+                //{
+                //    List<string> record = new List<string>();
+                //    for (int j = 1; j < 11; j++)
+                //    {
+                //        record.Add(dataGridView1[j, i*2].Value.ToString());
+                //        oraCmd.Parameters.Clear();
+                //        oraCmd.Parameters.Add(new OracleParameter("name", name[i]));
+                //        oraCmd.Parameters.Add(new OracleParameter("frame", j));
+                //        oraCmd.Parameters.Add(new OracleParameter("record", record[j - 1]));
+                //        oraCmd.ExecuteNonQuery();
+                //    }
+                //}
+                ///테스트
+                oraCmd.CommandText = "INSERT INTO TestTable (name,frame1,frame2,frame3,frame4,frame5,frame6,frame7,frame8,frame9,frame10, dated) VALUES (:name,:frame1,:frame2,:frame3,:frame4,:frame5,:frame6,:frame7,:frame8,:frame9,:frame10, to_char(sysdate,'yyyy/mm/dd HH:MI'))";
+                for (int i = 0; i < user; i++)
+                {
+                    List<string> record = new List<string>();
+                    for (int j = 1; j < 11; j++)
+                    {
+                        record.Add(dataGridView1[j, i * 2].Value.ToString());
+                    }
+                    oraCmd.Parameters.Clear();
+                    oraCmd.Parameters.Add(new OracleParameter("name", name[i]));
+                    oraCmd.Parameters.Add(new OracleParameter("frame1", record[0]));
+                    oraCmd.Parameters.Add(new OracleParameter("frame2", record[1]));
+                    oraCmd.Parameters.Add(new OracleParameter("frame3", record[2]));
+                    oraCmd.Parameters.Add(new OracleParameter("frame4", record[3]));
+                    oraCmd.Parameters.Add(new OracleParameter("frame5", record[4]));
+                    oraCmd.Parameters.Add(new OracleParameter("frame6", record[5]));
+                    oraCmd.Parameters.Add(new OracleParameter("frame7", record[6]));
+                    oraCmd.Parameters.Add(new OracleParameter("frame8", record[7]));
+                    oraCmd.Parameters.Add(new OracleParameter("frame9", record[8]));
+                    oraCmd.Parameters.Add(new OracleParameter("frame10", record[9]));
+                    oraCmd.ExecuteNonQuery();
+                }
+                ///
+                oraCmd.Transaction.Commit();
+                
+                MessageBox.Show("기록저장완료");
+                DataClear();
+                txtUser.Text = "";
+                button2.Enabled = false;
+            }
+            catch(Exception err)
+            {
+                oraCmd.Transaction.Rollback();
+                MessageBox.Show(err.Message);
+            }
+            finally
+            {
+                oraConn.Close();
+            }
+        }
+
+        private void 조회하기ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form3 frm = new Form3();
+            frm.Show();
+        }
+
+        private void DataClear()
+        {
+            dataGridView1.DataSource = "";
+            groupBox1.Visible = false;
+            btnSave.Visible = false;
+            pnllist.Clear();
+            txtlist.Clear();
+            //txtmaillist.Clear();
+
+            pnllist.Add(panel1);
+            pnllist.Add(panel2);
+            pnllist.Add(panel3);
+            pnllist.Add(panel4);
+            pnllist.Add(panel5);
+            pnllist.Add(panel6);
+            pnllist.Add(panel7);
+            pnllist.Add(panel8);
+            txtlist.Add(txtFrame1);
+            txtlist.Add(txtFrame2);
+            txtlist.Add(txtFrame3);
+            txtlist.Add(txtFrame4);
+            txtlist.Add(txtFrame5);
+            txtlist.Add(txtFrame6);
+            txtlist.Add(txtFrame7);
+            txtlist.Add(txtFrame8);
+            //txtmaillist.Add(txtMail1);
+            //txtmaillist.Add(txtMail2);
+            //txtmaillist.Add(txtMail3);
+            //txtmaillist.Add(txtMail4);
+            //txtmaillist.Add(txtMail5);
+            //txtmaillist.Add(txtMail6);
+            //txtmaillist.Add(txtMail7);
+            //txtmaillist.Add(txtMail8);
+
+            foreach (var item in pnllist)
+            {
+                item.Visible = false;
+            }
+            foreach (var txt in txtlist)
+            {
+                txt.Text = "";
+            }
+            //foreach (var txt in txtmaillist)
+            //{
+            //    txt.Text = "";
+            //}
+            for (int i = 0; i < txtlist.Count; i++)
+            {
+                txtlist[i].Enabled = true;
+            }
+            //for (int i = 0; i < txtmaillist.Count; i++)
+            //{
+            //    txtmaillist[i].Enabled = true;
+            //}
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DataRow row = null;
+            DataTable dt = new DataTable();
+            DataColumn[] frame = { new DataColumn("1"), new DataColumn("2"), new DataColumn("3"), new DataColumn("4"), new DataColumn("5"), new DataColumn("6"), new DataColumn("7"), new DataColumn("8"), new DataColumn("9"), new DataColumn("10") };
+
+            dt.Columns.Add(new DataColumn("레일"));
+            dt.Columns.AddRange(frame);
+
+            dataGridView1.DataSource = dt;
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            int rail = 0;
+            for (int i = 1; i < user * 2 + 1; i++)
+            {
+                if (i % 2 != 0)
+                {
+                    row = dt.NewRow();
+                    row.ItemArray = new object[] { $"{txtlist[rail].Text} 레일" };
+                    dt.Rows.Add(row);
+                    rail++;
+                }
+                else
+                {
+                    row = dt.NewRow();
+                    row.ItemArray = new object[] { "점수합계" };
+                    dt.Rows.Add(row);
+                }
+            }
+
+            for (int i = 0; i < txtlist.Count; i++)
+            {
+                txtlist[i].Enabled = false;
+            }
+            //for (int i = 0; i < txtmaillist.Count; i++)
+            //{
+            //    txtmaillist[i].Enabled = false;
+            //}
+
+            button3.Visible = false;
+            button2.Enabled = true;
         }
     }
 }
