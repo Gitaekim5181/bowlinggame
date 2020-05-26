@@ -52,13 +52,13 @@
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 27;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(660, 280);
+            this.dataGridView1.Size = new System.Drawing.Size(660, 264);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(774, 219);
+            this.button2.Location = new System.Drawing.Point(768, 206);
             this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(79, 30);
@@ -71,7 +71,7 @@
             // 
             this.dateTimePicker1.CustomFormat = "yy-MM-dd";
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(774, 96);
+            this.dateTimePicker1.Location = new System.Drawing.Point(768, 83);
             this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(115, 25);
@@ -81,7 +81,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(751, 134);
+            this.label1.Location = new System.Drawing.Point(745, 121);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(18, 15);
             this.label1.TabIndex = 4;
@@ -91,7 +91,7 @@
             // 
             this.dateTimePicker2.CustomFormat = "yy-MM-dd";
             this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker2.Location = new System.Drawing.Point(774, 127);
+            this.dateTimePicker2.Location = new System.Drawing.Point(768, 114);
             this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(115, 25);
@@ -102,7 +102,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(736, 59);
+            this.label2.Location = new System.Drawing.Point(730, 46);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(84, 23);
             this.label2.TabIndex = 6;
@@ -110,7 +110,7 @@
             // 
             // txtPlayer
             // 
-            this.txtPlayer.Location = new System.Drawing.Point(774, 172);
+            this.txtPlayer.Location = new System.Drawing.Point(768, 159);
             this.txtPlayer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtPlayer.Name = "txtPlayer";
             this.txtPlayer.Size = new System.Drawing.Size(115, 25);
@@ -119,7 +119,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(720, 96);
+            this.label3.Location = new System.Drawing.Point(712, 90);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(37, 15);
             this.label3.TabIndex = 8;
@@ -128,7 +128,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(718, 177);
+            this.label4.Location = new System.Drawing.Point(712, 164);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 15);
             this.label4.TabIndex = 9;
@@ -138,7 +138,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(945, 328);
+            this.ClientSize = new System.Drawing.Size(920, 311);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtPlayer);
